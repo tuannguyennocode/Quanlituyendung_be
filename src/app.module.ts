@@ -2,7 +2,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './user/user.module';
+import { UserAccountModule } from './user-account/user-account.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -11,7 +12,8 @@ import { UserModule } from './user/user.module';
       isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.DB_URI, { dbName: 'quanlituyendung_db' }),
-    UserModule,
+    UserAccountModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
