@@ -1,17 +1,18 @@
 /* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { SwaggerModule } from '@nestjs/swagger';
-import { createDocument } from './swagger/swagger';
+import { SwaggerModule,DocumentBuilder  } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('/api');
-  SwaggerModule.setup('api', app, createDocument(app), {
-    swaggerOptions: {
-      persistAuthorization: true,
-    },
-  });
+  const config = new DocumentBuilder()
+  .setTitle('Cats example')
+  .setDescription('The cats API description')
+  .setVersion('1.0')
+  .addTag('cats')
+  .build();
+const document = SwaggerModule.createDocument(app, config);
+SwaggerModule.setup('api', app, document);
   // const config = new DocumentBuilder()
   //   .setTitle('Quan ly tuyen dung')
   //   .setDescription('Quan ly tuyen dung API description')
