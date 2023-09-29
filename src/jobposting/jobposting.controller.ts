@@ -1,21 +1,14 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Get,
-  Param,
-  Put,
-  Delete,
-  Request,
-} from '@nestjs/common';
-import { JobPostingDto } from './dto/jobposting.dto';
-import { CreateJobPostingForm } from './form/createjobposting.form';
-import { JobPostingService } from './jobposting.service';
+/* eslint-disable prettier/prettier */
+import { Controller, Post, Body, Get, Param, Put, Delete, Request } from "@nestjs/common";
+import { JobPostingDto } from "./dto/jobposting.dto";
+import { CreateJobPostingForm } from "./form/createjobposting.form";
+import { JobPostingService } from "./jobposting.service";
 
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/auth/auth.public.decorator';
-@ApiTags('job-posting')
-@Controller('job-posting')
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { Public } from "src/auth/auth.public.decorator";
+import { setSuccessResponse } from "src/response/success";
+@ApiTags("job-posting")
+@Controller("job-posting")
 export class JobpostingController {
   constructor(private readonly jobPostingService: JobPostingService) {}
   @ApiBearerAuth()
@@ -25,8 +18,8 @@ export class JobpostingController {
   }
   @ApiBearerAuth()
   @Public()
-  @Get(':id')
-  getJobById(@Param('id') id: string) {
+  @Get(":id")
+  getJobById(@Param("id") id: string) {
     console.log(id);
     return this.jobPostingService.getJobPostById(id);
   }
@@ -44,8 +37,8 @@ export class JobpostingController {
   }
 
   @ApiBearerAuth()
-  @Delete(':id')
-  deleteJobPost(@Param('id') id: string) {
+  @Delete(":id")
+  deleteJobPost(@Param("id") id: string) {
     return this.jobPostingService.deleteJobPost(id);
   }
 }

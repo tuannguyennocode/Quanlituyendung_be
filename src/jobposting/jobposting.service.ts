@@ -1,42 +1,33 @@
-import { Injectable, Request } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { JobPosting } from './jobposting.schema';
-import { JobPostingDto } from './dto/jobposting.dto';
-import { CreateJobPostingForm } from './form/createjobposting.form';
-import { Body, Param } from '@nestjs/common';
-import { UserAccount } from 'src/user-account/user-account.schema';
-
+import { Injectable, Request, ConflictException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { JobPosting } from "./jobposting.schema";
+import { JobPostingDto } from "./dto/jobposting.dto";
+import { CreateJobPostingForm } from "./form/createjobposting.form";
+import { Body, Param } from "@nestjs/common";
+import { errorMessages } from "src/response/errors/custom";
+import { SuccessResponse, setSuccessResponse } from "src/response/success";
 @Injectable()
 export class JobPostingService {
   constructor(
-    @InjectModel('JobPosting')
+    @InjectModel("JobPosting")
     private readonly jobPostingModel: Model<JobPosting>,
   ) {}
 
-  async createJobPost(
-    @Body() createJobPostingForm: CreateJobPostingForm,
-    @Request() req,
-  ): Promise<string> {
-    const { name } = CreateJobPostingForm;
-
+  async createJobPost(@Body() createJobPostingForm: CreateJobPostingForm, @Request() req): Promise<SuccessResponse> {
+    const { name } = createJobPostingForm;
     // Kiểm tra xem jobpost đã tồn tại trong cơ sở dữ liệu chưa
-    const existingJobPost = await this.jobPostingModel
-      .findOne({ name: name })
-      .exec();
-
+    const existingJobPost = await this.jobPostingModel.findOne({ name: name }).exec();
     if (existingJobPost) {
-      return 'JobPost already exists';
+      throw new ConflictException(errorMessages.jobPosting.jobPostingAlreadyExist);
     }
-
+    console.log("ok");
     const newJobPost = await this.jobPostingModel.create(createJobPostingForm);
     newJobPost.createBy = req.user.username;
     await newJobPost.save();
-    return 'Create job-posting successfully';
+    return setSuccessResponse("Tạo bài tuyển dụng thành công");
   }
-  async getJobPostById(
-    @Param('id') id: string,
-  ): Promise<JobPostingDto | string> {
+  async getJobPostById(@Param("id") id: string): Promise<SuccessResponse> {
     // Kiểm tra xem jobpost đã tồn tại trong cơ sở dữ liệu chưa
     const existingJobPost = await this.jobPostingModel.findById(id).exec();
     if (existingJobPost) {
@@ -47,30 +38,26 @@ export class JobPostingService {
         name: existingJobPost.name,
         detail: existingJobPost.detail,
       };
-      return jobPost;
+      return setSuccessResponse("Lấy bài tuyển dụng thành công", jobPost);
     }
-    return 'Job post not found';
+    throw new ConflictException(errorMessages.jobPosting.jobPostingNotFound);
   }
-  getAllJobPost(): Promise<JobPosting[]> {
-    const existingJobPosts = this.jobPostingModel.find().exec();
+  async getAllJobPost(): Promise<SuccessResponse> {
+    const existingJobPosts = await this.jobPostingModel.find().exec();
 
-    return existingJobPosts;
+    return setSuccessResponse("Lấy danh sách tuyển dụng thành công", existingJobPosts);
   }
 
-  async deleteJobPost(
-    @Param('id') id: string,
-  ): Promise<JobPostingDto | string> {
+  async deleteJobPost(@Param("id") id: string): Promise<SuccessResponse> {
     // Kiểm tra xem jobpost đã tồn tại trong cơ sở dữ liệu chưa
     const existingJobPost = await this.jobPostingModel.findById(id).exec();
     if (existingJobPost) {
       await existingJobPost.deleteOne();
-      return 'Delete job-posting successfully';
+      return setSuccessResponse("Xoá bài tuyển dụng thành công");
     }
-    return 'Job post not found';
+    throw new ConflictException(errorMessages.jobPosting.jobPostingNotFound);
   }
-  async updateJobPost(
-    @Body() jobPostingDto: JobPostingDto,
-  ): Promise<JobPostingDto | string> {
+  async updateJobPost(@Body() jobPostingDto: JobPostingDto): Promise<SuccessResponse> {
     // Kiểm tra xem jobpost đã tồn tại trong cơ sở dữ liệu chưa
     const { _id, name, detail, startDate, endDate } = jobPostingDto;
 
@@ -82,8 +69,8 @@ export class JobPostingService {
       existingJobPost.name = name;
       existingJobPost.detail = detail;
       await existingJobPost.save();
-      return 'Update job-posting successfully';
+      return setSuccessResponse("Cập nhật bài tuyển dụng thành công");
     }
-    return 'Job post not found';
+    throw new ConflictException(errorMessages.jobPosting.jobPostingNotFound);
   }
 }
