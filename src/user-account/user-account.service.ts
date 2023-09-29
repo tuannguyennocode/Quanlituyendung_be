@@ -3,7 +3,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { UserAccount } from "./user-account.schema";
-import { SuccessResponse, setSuccessResponse } from "src/response/success";
+import { SuccessResponse, setSuccessResponse } from "../response/success";
 @Injectable()
 export class UserAccountService {
   constructor(

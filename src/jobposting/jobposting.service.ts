@@ -6,7 +6,7 @@ import { JobPostingDto } from "./dto/jobposting.dto";
 import { CreateJobPostingForm } from "./form/createjobposting.form";
 import { Body, Param } from "@nestjs/common";
 import { errorMessages } from "src/response/errors/custom";
-import { SuccessResponse, setSuccessResponse } from "src/response/success";
+import { SuccessResponse, setSuccessResponse } from "../response/success";
 @Injectable()
 export class JobPostingService {
   constructor(

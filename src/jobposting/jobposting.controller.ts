@@ -6,7 +6,7 @@ import { JobPostingService } from "./jobposting.service";
 
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Public } from "src/auth/auth.public.decorator";
-import { setSuccessResponse } from "src/response/success";
+import { setSuccessResponse } from "../response/success";
 @ApiTags("job-posting")
 @Controller("job-posting")
 export class JobpostingController {

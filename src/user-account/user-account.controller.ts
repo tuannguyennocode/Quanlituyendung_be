@@ -2,7 +2,7 @@
 import { Controller, Get, Request } from "@nestjs/common";
 import { UserAccountService } from "./user-account.service";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { setSuccessResponse } from "src/response/success";
+import { setSuccessResponse } from "../response/success";
 @ApiTags("User")
 @Controller("user")
 export class UserAccountController {

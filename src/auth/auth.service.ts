@@ -8,7 +8,7 @@ import { UserAccount } from "src/user-account/user-account.schema";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { errorMessages } from "src/response/errors/custom";
-import { SuccessResponse, setSuccessResponse } from "src/response/success";
+import { SuccessResponse, setSuccessResponse } from "../response/success";
 @Injectable()
 export class AuthService {
   constructor(
