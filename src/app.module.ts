@@ -4,10 +4,9 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { ConfigModule } from "@nestjs/config";
 import { UserAccountModule } from "./user-account/user-account.module";
 import { AuthModule } from "./auth/auth.module";
-
+import { JobPostingModule } from "./jobposting/jobposting.module";
 import { ErrorsFilter } from "./response/errors/errors.filter";
-import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
-
+import { APP_FILTER } from "@nestjs/core";
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -17,6 +16,7 @@ import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
     MongooseModule.forRoot(process.env.DB_URI, { dbName: "quanlituyendung_db" }),
     UserAccountModule,
     AuthModule,
+    JobPostingModule,
   ],
   providers: [
     {
