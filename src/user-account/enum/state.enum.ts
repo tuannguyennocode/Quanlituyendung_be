@@ -1,0 +1,6 @@
+export enum State {
+  ACTIVE = "ACTIVE",
+  UNAUTHENTICATED = "UNAUTHENTICATED",
+  BANNED = "BANNED",
+  DELETED = "DELETED",
+}
