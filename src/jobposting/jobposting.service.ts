@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Request } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { JobPosting } from './jobposting.schema';
 import { JobPostingDto } from './dto/jobposting.dto';
 import { CreateJobPostingForm } from './form/createjobposting.form';
 import { Body, Param } from '@nestjs/common';
+import { UserAccount } from 'src/user-account/user-account.schema';
 
 @Injectable()
 export class JobPostingService {
@@ -15,6 +16,7 @@ export class JobPostingService {
 
   async createJobPost(
     @Body() createJobPostingForm: CreateJobPostingForm,
+    @Request() req,
   ): Promise<string> {
     const { name } = CreateJobPostingForm;
 
@@ -28,6 +30,7 @@ export class JobPostingService {
     }
 
     const newJobPost = await this.jobPostingModel.create(createJobPostingForm);
+    newJobPost.createBy = req.user.username;
     await newJobPost.save();
     return 'Create job-posting successfully';
   }

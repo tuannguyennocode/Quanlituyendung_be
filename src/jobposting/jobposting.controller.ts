@@ -6,6 +6,7 @@ import {
   Param,
   Put,
   Delete,
+  Request,
 } from '@nestjs/common';
 import { JobPostingDto } from './dto/jobposting.dto';
 import { CreateJobPostingForm } from './form/createjobposting.form';
@@ -19,8 +20,8 @@ export class JobpostingController {
   constructor(private readonly jobPostingService: JobPostingService) {}
   @ApiBearerAuth()
   @Post()
-  postJob(@Body() createJobPostingForm: CreateJobPostingForm) {
-    return this.jobPostingService.createJobPost(createJobPostingForm);
+  postJob(@Body() createJobPostingForm: CreateJobPostingForm, @Request() req) {
+    return this.jobPostingService.createJobPost(createJobPostingForm, req);
   }
   @ApiBearerAuth()
   @Public()

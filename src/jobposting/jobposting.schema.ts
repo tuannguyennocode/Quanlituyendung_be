@@ -18,6 +18,9 @@ export class JobPosting {
   // Thêm trường detail theo cấu trúc bạn đã mô tả
   @Prop({ type: JSON })
   detail: object;
+
+  @Prop()
+  createBy: string;
 }
 
 export const JobPostingSchema = SchemaFactory.createForClass(JobPosting);
