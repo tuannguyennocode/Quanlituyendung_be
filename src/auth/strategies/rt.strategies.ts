@@ -5,7 +5,7 @@ import { Request } from 'express';
 import { jwtConstants } from '../constants';
 
 @Injectable()
-export class RtStrategiest extends PassportStrategy(Strategy, 'jwt-refresh') {
+export class RtStrategies extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([

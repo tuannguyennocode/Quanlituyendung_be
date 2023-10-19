@@ -5,7 +5,7 @@ import { AuthService } from "./auth.service";
 import { UserAccountModule } from "src/user-account/user-account.module";
 import { JwtModule } from "@nestjs/jwt";
 import { APP_GUARD } from "@nestjs/core";
-import { AtStrategiest, RtStrategiest } from "./strategies";
+import { AtStrategies, RtStrategies } from "./strategies";
 import { AtGuard } from "./guard";
 
 @Module({
@@ -13,8 +13,8 @@ import { AtGuard } from "./guard";
   controllers: [AuthController],
   providers: [
     AuthService,
-    AtStrategiest,
-    RtStrategiest,
+    AtStrategies,
+    RtStrategies,
     {
       provide: APP_GUARD,
       useClass: AtGuard,

@@ -11,7 +11,7 @@ type JwtPayload = {
 };
 
 @Injectable()
-export class AtStrategiest extends PassportStrategy(Strategy, "jwt") {
+export class AtStrategies extends PassportStrategy(Strategy, "jwt") {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
