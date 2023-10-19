@@ -11,7 +11,7 @@ export class UserAccountController {
   @ApiBearerAuth()
   @Get("profile")
   async getProfile(@Request() req) {
-    const userAccount = await this.userAccountService.findOne(req.user.username);
+    const userAccount = await this.userAccountService.findById(req.user.id);
     return setSuccessResponse("Lấy tài khoản user thành công", userAccount);
   }
   @ApiBearerAuth()

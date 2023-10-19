@@ -4,8 +4,8 @@ export interface ErrorBody extends Error {
 
 export const errorMessages = {
   auth: {
-    wronCredentials: {
-      message: "wrong data provided",
+    wrongCredentials: {
+      message: "Tên tài khoản hoặc mật khẩu không đúng",
       code: "60001",
     },
     userNameAlreadyExist: {

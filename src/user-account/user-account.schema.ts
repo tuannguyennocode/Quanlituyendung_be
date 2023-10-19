@@ -24,6 +24,8 @@ export class UserAccount {
   state: State;
   @Prop({ enum: Status, default: Status.INPROCESS })
   status: Status;
+  @Prop()
+  hashRt: string;
 }
 
 export const UserAccountSchema = SchemaFactory.createForClass(UserAccount);

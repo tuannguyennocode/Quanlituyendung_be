@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { ApiProperty } from '@nestjs/swagger';
-export class LoginDto {
+export class LoginForm {
   @ApiProperty()
   username: string;
   @ApiProperty()
