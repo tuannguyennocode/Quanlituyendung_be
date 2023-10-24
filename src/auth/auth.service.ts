@@ -21,30 +21,27 @@ export class AuthService {
   ) {}
 
   async signIn(loginForm: LoginForm): Promise<SuccessResponse> {
-    const { username, password } = loginForm;
-    const user = await this.userAccountService.findOneForAuthentication(username, "username");
+    const { email, password } = loginForm;
+    const user = await this.userAccountService.findOneByEmailForAuthentication(email);
+    const { role, state, status } = user;
     if (user && (await bcrypt.compare(password, user?.password))) {
       const tokens = await this.getTokens(user);
 
       const rtHash = await this.hashByBcrypt(tokens.refresh_token);
 
       await this.userAccountService.updateOne(user._id.toString(), { hashRt: rtHash });
-
-      return setSuccessResponse("Đăng nhập thành công", tokens);
+      const response = { ...tokens, role, state, status };
+      return setSuccessResponse("Đăng nhập thành công", response);
     } else {
       throw new ConflictException(errorMessages.auth.wrongCredentials);
     }
   }
   async signUp(@Body() registerForm: RegisterForm): Promise<SuccessResponse> {
-    const { username, password, email } = registerForm;
+    const { password, email } = registerForm;
 
-    const existingUserName = await this.userAccountService.findOneForAuthentication(username, "username");
+    const existingEmail = await this.userAccountService.findOneByEmailForAuthentication(email);
 
-    const existingEmail = await this.userAccountService.findOneForAuthentication(email, "email");
-
-    if (existingUserName) {
-      throw new ConflictException(errorMessages.auth.userNameAlreadyExist);
-    } else if (existingEmail) {
+    if (existingEmail) {
       throw new ConflictException(errorMessages.auth.emailAlreadyExist);
     }
 
@@ -54,7 +51,7 @@ export class AuthService {
     return setSuccessResponse("Đăng ký tài khoản thành công");
   }
   async refreshTokens(userId: string, rt: string) {
-    const user = await this.userAccountService.findById(userId);
+    const user = await this.userAccountService.getRefreshTokenById(userId);
 
     if (!user || !user.hashRt) throw new ForbiddenException("Access Denied.");
 
@@ -78,7 +75,6 @@ export class AuthService {
       this.jwtService.signAsync(
         {
           id: user._id,
-          username: user.username,
           role: user.role,
           state: user.state,
         },
