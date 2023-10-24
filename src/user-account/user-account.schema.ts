@@ -4,20 +4,17 @@ import mongoose, { HydratedDocument } from "mongoose";
 import { Role } from "./enum/role.enum";
 import { State } from "./enum/state.enum";
 import { Status } from "./enum/status.enum";
+import { CommonSchemaProps } from "src/common/commonSchemaProps";
 
 export type UserDocument = HydratedDocument<UserAccount>;
 
 @Schema()
-export class UserAccount {
+export class UserAccount extends CommonSchemaProps {
   _id: mongoose.Types.ObjectId;
-  @Prop()
-  username: string;
   @Prop()
   password: string;
   @Prop()
   email: string;
-  @Prop({ default: new Date() })
-  creationTime: Date;
   @Prop({ enum: Role, default: Role.CANDIDATE })
   role: Role;
   @Prop({ enum: State, default: State.UNAUTHENTICATED })
@@ -26,6 +23,8 @@ export class UserAccount {
   status: Status;
   @Prop()
   hashRt: string;
+  @Prop()
+  profile: string;
 }
 
 export const UserAccountSchema = SchemaFactory.createForClass(UserAccount);

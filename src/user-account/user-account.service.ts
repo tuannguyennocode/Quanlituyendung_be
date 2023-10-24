@@ -4,6 +4,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { UserAccount } from "./user-account.schema";
 import { SuccessResponse, setSuccessResponse } from "../response/success";
+import { UpdateProfileForm } from "./form/update-profile.form";
 @Injectable()
 export class UserAccountService {
   constructor(
@@ -11,30 +12,25 @@ export class UserAccountService {
     private readonly userAccountModel: Model<UserAccount>,
   ) {}
 
-  async findOneForAuthentication(field: string, type: string): Promise<UserAccount> {
+  async findOneByEmailForAuthentication(email: string): Promise<UserAccount> {
     let user: UserAccount;
-    if (type === "username") {
-      user = await this.userAccountModel.findOne({ username: field }).select("username password role state").exec();
-    } else if (type === "email") {
-      user = await this.userAccountModel.findOne({ email: field }).select("email").exec();
-    }
+    user = await this.userAccountModel.findOne({ email }).exec();
     return user;
   }
-  async findById(id: string): Promise<UserAccount> {
-    const userAccount = await this.userAccountModel.findOne({ _id: id }).exec();
+  async getProfile(id: string): Promise<UserAccount> {
+    const userAccount = await this.userAccountModel.findOne({ _id: id }).select("-password -state -status -role -hashRt").exec();
     return userAccount;
   }
-  async findByUserName(username: string): Promise<UserAccount> {
-    const userAccount = await this.userAccountModel.findOne({ username: username }).select("-password").exec();
+  async getRefreshTokenById(id: string): Promise<UserAccount> {
+    const userAccount = await this.userAccountModel.findOne({ _id: id }).select("hashRt").exec();
     return userAccount;
   }
   async findAll(): Promise<UserAccount[]> {
-    const listUserAccount = await this.userAccountModel.find().exec();
+    const listUserAccount = await this.userAccountModel.find().select('-password -hashRt').exec();
     return listUserAccount;
   }
   async updateOne(id: string, updateData: Partial<UserAccount>): Promise<SuccessResponse> {
     const userAccount = await this.userAccountModel.findById(id).exec();
-
     if (!userAccount) {
       throw new NotFoundException(`Object with ID ${id} not found.`);
     }
