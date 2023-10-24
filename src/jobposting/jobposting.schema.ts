@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
+import { CommonSchemaProps } from 'src/common/commonSchemaProps';
 
 export type JobPostingDocument = HydratedDocument<JobPosting>;
 
 @Schema()
-export class JobPosting {
+export class JobPosting extends CommonSchemaProps{
   _id: mongoose.Types.ObjectId;
   @Prop()
   name: string;
@@ -18,9 +19,6 @@ export class JobPosting {
   // Thêm trường detail theo cấu trúc bạn đã mô tả
   @Prop({ type: JSON })
   detail: object;
-
-  @Prop()
-  createBy: string;
 }
 
 export const JobPostingSchema = SchemaFactory.createForClass(JobPosting);

@@ -45,6 +45,16 @@ export const errorMessages = {
       code: "60202",
     },
   },
+  company: {
+    companyAlreadyExist: {
+      message: "Công ty này đã tồn tại",
+      code: "70201",
+    },
+    companyNotFound: {
+      message: "Không tìm thấy công ty",
+      code: "70202",
+    },
+  },
   role: {
     notFound: {
       message: "role not found",
