@@ -1,18 +1,27 @@
 /* eslint-disable prettier/prettier */
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsObject } from 'class-validator';
+import { IsDateFormat } from 'src/validator/is-date-format.validator';
 
 export class CreateJobPostingForm {
 
+  @ApiProperty({ type: String })
+  @IsNotEmpty({message :"companyId can not empty"})
+  companyId: string;
+
   @ApiProperty()
+  @IsNotEmpty({message :"name can not empty"})
   name: string;
-  // Thêm trường startDate và endDate
+  
   @ApiProperty()
-  startDate: string; // Định dạng ngày bắt đầu
+  @IsDateFormat()
+  startDate: string; 
 
   @ApiProperty()
-  endDate: string; // Định dạng ngày kết thúc
+  @IsDateFormat()
+  endDate: string;
 
-  // Thêm trường detail theo cấu trúc bạn đã mô tả
   @ApiProperty()
+  @IsObject({ message: 'must be Object' })
   detail: object
 }
