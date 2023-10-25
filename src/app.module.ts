@@ -8,8 +8,6 @@ import { JobPostingModule } from './jobposting/jobposting.module';
 import { ErrorsFilter } from './response/errors/errors.filter';
 import { APP_FILTER } from '@nestjs/core';
 import { CompanyModule } from './company/company.module';
-import { BlacklistController } from './blacklist/blacklist.controller';
-import { BlacklistModule } from './blacklist/blacklist.module';
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -20,8 +18,7 @@ import { BlacklistModule } from './blacklist/blacklist.module';
         UserAccountModule,
         AuthModule,
         JobPostingModule,
-        CompanyModule,
-        BlacklistModule,
+        CompanyModule
     ],
     providers: [
         {
@@ -29,6 +26,5 @@ import { BlacklistModule } from './blacklist/blacklist.module';
             useClass: ErrorsFilter,
         },
     ],
-    controllers: [BlacklistController],
 })
 export class AppModule {}

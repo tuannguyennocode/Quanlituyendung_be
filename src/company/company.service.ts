@@ -44,7 +44,19 @@ export class CompanyService {
     }
     async getAllCompany(): Promise<SuccessResponse> {
         const existingCompanys = await this.companyModel.find().exec();
-        return setSuccessResponse('Lấy danh sách công ty thành công', existingCompanys);
+
+        const companyDtos: CompanyDto[] = existingCompanys.map((company) => ({
+            _id: company.id,
+            name: company.name,
+            phoneNumber: company.phoneNumber,
+            email: company.email,
+            address: company.address,
+            company_size: company.company_size,
+            web_url: company.web_url,
+            description: company.description,
+        }));
+
+        return setSuccessResponse('Lấy danh sách công ty thành công', companyDtos);
     }
     async deleteCompany(@Param('id') id: string): Promise<SuccessResponse> {
         // Kiểm tra xem jobpost đã tồn tại trong cơ sở dữ liệu chưa
@@ -56,9 +68,6 @@ export class CompanyService {
         throw new ConflictException(errorMessages.company.companyNotFound);
     }
     async updateCompany(@Body() updateCompanyForm: UpdateCompanyForm): Promise<SuccessResponse> {
-        //const { _id, name, phoneNumber, email, address, company_size,web_url,description } = updateCompanyForm;
-
-        // Kiểm tra xem jobpost đã tồn tại trong cơ sở dữ liệu chưa
         const existingCompany = await this.companyModel.findById(updateCompanyForm._id).exec();
         if (existingCompany) {
             existingCompany.name = updateCompanyForm.name;

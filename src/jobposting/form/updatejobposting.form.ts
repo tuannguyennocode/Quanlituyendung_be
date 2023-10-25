@@ -2,19 +2,30 @@
 
 import { ApiProperty } from '@nestjs/swagger';
 import mongoose from 'mongoose';
+import { IsNotEmpty, IsObject, IsDateString } from 'class-validator';
+import { IsDateFormat } from 'src/validator/is-date-format.validator';
+
 export class UpdateJobPostingForm {
-  @ApiProperty()
-  _id: mongoose.Types.ObjectId;
-  @ApiProperty()
-  name: string;
-  // Thêm trường startDate và endDate
-  @ApiProperty()
-  startDate: string; // Định dạng ngày bắt đầu
+    @ApiProperty()
+    _id: mongoose.Types.ObjectId;
 
-  @ApiProperty()
-  endDate: string; // Định dạng ngày kết thúc
+    @ApiProperty({ type: String })
+    @IsNotEmpty({ message: 'companyId can not empty' })
+    companyId: string;
 
-  // Thêm trường detail theo cấu trúc bạn đã mô tả
-  @ApiProperty()
-  detail: object;
+    @ApiProperty()
+    @IsNotEmpty({ message: 'name can not empty' })
+    name: string;
+
+    @ApiProperty()
+    @IsDateFormat()
+    startDate: string;
+
+    @ApiProperty()
+    @IsDateFormat()
+    endDate: string;
+
+    @ApiProperty()
+    @IsObject({ message: 'must be Object' })
+    detail: object;
 }

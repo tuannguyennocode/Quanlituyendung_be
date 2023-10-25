@@ -8,6 +8,10 @@ export type JobPostingDocument = HydratedDocument<JobPosting>;
 @Schema()
 export class JobPosting extends CommonSchemaProps{
   _id: mongoose.Types.ObjectId;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Company' })
+  company: mongoose.Types.ObjectId;
+  
   @Prop()
   name: string;
   // Thêm trường startDate và endDate

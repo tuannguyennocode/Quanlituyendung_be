@@ -1,4 +1,4 @@
-import { Get, Put, Delete, Param, Body, Post, Request } from '@nestjs/common';
+import { Get, Put, Delete, Param, Body, Post, Request, UsePipes } from '@nestjs/common';
 import { Controller } from '@nestjs/common/decorators';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/auth.public.decorator';
@@ -7,6 +7,7 @@ import { CompanyService } from './company.service';
 import { UpdateCompanyForm } from './form/updatecompanyform';
 @ApiTags('Company')
 @Controller('company')
+@UsePipes()
 export class CompanyController {
     constructor(private readonly companyService: CompanyService) {}
     @ApiBearerAuth()

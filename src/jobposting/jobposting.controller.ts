@@ -1,14 +1,14 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Post, Body, Get, Param, Put, Delete, Request } from '@nestjs/common';
-import { JobPostingDto } from './dto/jobposting.dto';
+import { Controller, Post, Body, Get, Param, Put, Delete, Request,UsePipes  } from '@nestjs/common';
 import { CreateJobPostingForm } from './form/createjobposting.form';
 import { JobPostingService } from './jobposting.service';
 
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/auth.public.decorator';
-import { setSuccessResponse } from '../response/success';
+import { UpdateJobPostingForm } from './form/updatejobposting.form';
 @ApiTags('job-posting')
 @Controller('job-posting')
+@UsePipes()
 export class JobpostingController {
     constructor(private readonly jobPostingService: JobPostingService) {}
     @ApiBearerAuth()
@@ -32,8 +32,8 @@ export class JobpostingController {
 
     @ApiBearerAuth()
     @Put()
-    updateJobPost(@Body() jobPostingDto: JobPostingDto) {
-        return this.jobPostingService.updateJobPost(jobPostingDto);
+    updateJobPost(@Body() updateJobPostingForm: UpdateJobPostingForm) {
+        return this.jobPostingService.updateJobPost(updateJobPostingForm);
     }
 
     @ApiBearerAuth()

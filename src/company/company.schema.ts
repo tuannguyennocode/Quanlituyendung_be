@@ -11,10 +11,10 @@ export class Company extends CommonSchemaProps{
   @Prop()
   name: string;
   
-  @Prop()
+  @Prop({unique:true})
   phoneNumber: string;
 
-  @Prop()
+  @Prop({unique:true})
   email: string;
 
   @Prop()
@@ -28,9 +28,6 @@ export class Company extends CommonSchemaProps{
 
   @Prop()
   description: string;
-
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'JobPosting' }] })
-  jobPostings: JobPosting[];
 }
 
 export const CompanySchema = SchemaFactory.createForClass(Company);

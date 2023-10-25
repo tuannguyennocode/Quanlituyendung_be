@@ -1,28 +1,29 @@
 /* eslint-disable prettier/prettier */
 import { ApiProperty } from '@nestjs/swagger';
 import mongoose from 'mongoose';
+import { JobPostingDto } from 'src/jobposting/dto/jobposting.dto';
 export class CompanyDto {
-  @ApiProperty()
-  _id: mongoose.Types.ObjectId;
+    @ApiProperty()
+    _id: mongoose.Types.ObjectId;
 
-  @ApiProperty()
-  name: string;
-  
-  @ApiProperty()
-  phoneNumber: string;
+    @ApiProperty()
+    name: string;
 
-  @ApiProperty()
-  email: string;
+    @ApiProperty()
+    phoneNumber: string;
 
-  @ApiProperty()
-  address: string;
+    @ApiProperty()
+    email: string;
 
-  @ApiProperty()
-  company_size: string;
+    @ApiProperty()
+    address: string;
 
-  @ApiProperty()
-  web_url: string;
+    @ApiProperty()
+    company_size: string;
 
-  @ApiProperty()
-  description: string;
+    @ApiProperty()
+    web_url: string;
+
+    @ApiProperty()
+    description: string;
 }
