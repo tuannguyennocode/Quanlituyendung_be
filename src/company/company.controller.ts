@@ -1,4 +1,4 @@
-import { Get, Put, Delete, Param, Body, Post, Request, UsePipes } from '@nestjs/common';
+import { Get, Put, Delete, Param, Body, Post, Request, UsePipes, Query } from '@nestjs/common';
 import { Controller } from '@nestjs/common/decorators';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/auth.public.decorator';
@@ -24,8 +24,8 @@ export class CompanyController {
     @ApiBearerAuth()
     @Public()
     @Get()
-    getAllCompany() {
-        return this.companyService.getAllCompany();
+    getAllCompany(@Query('page') page: number, @Query('perPage') perPage: number, @Query('phoneNumber') phoneNumber: string) {
+        return this.companyService.getAllCompany(page, perPage, phoneNumber);
     }
 
     @ApiBearerAuth()
