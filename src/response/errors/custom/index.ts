@@ -31,7 +31,7 @@ export const errorMessages = {
   },
   user: {
     notFound: {
-      message: "user not found",
+      message: "Không tìm thấy người dùng",
       code: "60101",
     },
   },
