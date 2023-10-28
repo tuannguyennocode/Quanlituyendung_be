@@ -48,9 +48,7 @@ export class JobPostingService {
         }
         throw new ConflictException(errorMessages.jobPosting.jobPostingNotFound);
     }
-    async getAllJobPost(
-        filter: JobPostingFilter
-        ): Promise<SuccessResponse> {
+    async getAllJobPost(filter: JobPostingFilter): Promise<SuccessResponse> {
         const startIndex = (filter.page - 1) * filter.perPage;
         const totalJobPosts = await this.jobPostingModel.countDocuments().exec();
         const existingJobPosts = await this.jobPostingModel.find().skip(startIndex).limit(filter.perPage).exec();
@@ -74,24 +72,18 @@ export class JobPostingService {
         }
         throw new ConflictException(errorMessages.jobPosting.jobPostingNotFound);
     }
-    async updateJobPost(@Body() updateJobPostingForm: UpdateJobPostingForm): Promise<SuccessResponse> {
-        const existingJobPost = await this.jobPostingModel.findById(updateJobPostingForm._id).exec();
+    async updateJobPost(@Body() updateData: Partial<JobPosting>): Promise<SuccessResponse> {
+        const existingJobPost = await this.jobPostingModel.findById(updateData._id).exec();
         if (!existingJobPost) {
             throw new ConflictException(errorMessages.jobPosting.jobPostingNotFound);
         }
-        let existingCompany;
-        if (!existingJobPost.company._id.equals(updateJobPostingForm.companyId)) {
-            existingCompany = await this.companyModel.findById(updateJobPostingForm.companyId).exec();
-            if (!existingCompany) {
-                throw new NotFoundException(errorMessages.company.companyNotFound);
+        if (updateData.name != existingJobPost.name) {
+            const exsitingCompany = await this.companyModel.findOne({ name: updateData.name }).exec();
+            if (exsitingCompany) {
+                throw new ConflictException(errorMessages.jobPosting.jobPostingAlreadyExist);
             }
         }
-
-        existingJobPost.startDate = updateJobPostingForm.startDate;
-        existingJobPost.endDate = updateJobPostingForm.endDate;
-        existingJobPost.name = updateJobPostingForm.name;
-        existingJobPost.detail = updateJobPostingForm.detail;
-        existingJobPost.company = existingCompany;
+        Object.assign(existingJobPost, updateData);
         await existingJobPost.save();
         return setSuccessResponse('Cập nhật bài tuyển dụng thành công');
     }
