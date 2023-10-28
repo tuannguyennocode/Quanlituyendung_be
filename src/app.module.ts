@@ -30,17 +30,18 @@ import { AuditableMiddleware } from './auditable/auditable.middleware';
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
-        consumer.apply(AuditableMiddleware).forRoutes({
-            path: '*',
-            method: RequestMethod.POST, // Áp dụng cho tất cả các phương thức (GET, POST, PUT, DELETE, vv.)
-        });
-        consumer.apply(AuditableMiddleware).forRoutes({
-            path: '*',
-            method: RequestMethod.PUT, // Áp dụng cho tất cả các phương thức (GET, POST, PUT, DELETE, vv.)
-        });
-        consumer.apply(AuditableMiddleware).forRoutes({
-            path: '*',
-            method: RequestMethod.DELETE, // Áp dụng cho tất cả các phương thức (GET, POST, PUT, DELETE, vv.)
-        });
+        consumer
+            .apply(AuditableMiddleware)
+            .exclude(
+                { path: 'auth*', method: RequestMethod.ALL }, // Loại trừ tất cả các phương thức cho đường dẫn bắt đầu bằng 'auth'
+            )
+            .forRoutes(
+                { path: 'user*', method: RequestMethod.POST },
+                { path: 'user*', method: RequestMethod.PUT },
+                { path: 'company*', method: RequestMethod.POST },
+                { path: 'company*', method: RequestMethod.PUT },
+                { path: 'job-posting*', method: RequestMethod.POST },
+                { path: 'job-posting*', method: RequestMethod.PUT },
+            );
     }
 }

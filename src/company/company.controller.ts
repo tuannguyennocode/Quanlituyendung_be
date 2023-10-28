@@ -31,8 +31,8 @@ export class CompanyController {
 
     @ApiBearerAuth()
     @Put()
-    updateCompany(@Body() updateCompanyForm: UpdateCompanyForm) {
-        return this.companyService.updateCompany(updateCompanyForm);
+    updateCompany(@Body() updateCompanyForm: UpdateCompanyForm, @Request() req) {
+        return this.companyService.updateCompany(updateCompanyForm, req);
     }
 
     @ApiBearerAuth()
