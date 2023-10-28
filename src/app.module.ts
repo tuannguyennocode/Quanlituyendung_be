@@ -18,7 +18,7 @@ import { CompanyModule } from './company/company.module';
         UserAccountModule,
         AuthModule,
         JobPostingModule,
-        CompanyModule
+        CompanyModule,
     ],
     providers: [
         {

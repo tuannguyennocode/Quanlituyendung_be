@@ -1,10 +1,11 @@
-import { Get, Put, Delete, Param, Body, Post, Request, UsePipes } from '@nestjs/common';
+import { Get, Put, Delete, Param, Body, Post, Request, UsePipes, Query } from '@nestjs/common';
 import { Controller } from '@nestjs/common/decorators';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/auth.public.decorator';
 import { CreateCompanyForm } from './form/createcompanyform';
 import { CompanyService } from './company.service';
 import { UpdateCompanyForm } from './form/updatecompanyform';
+import { CompanyFilter } from './filter/company.filter';
 @ApiTags('Company')
 @Controller('company')
 @UsePipes()
@@ -24,8 +25,8 @@ export class CompanyController {
     @ApiBearerAuth()
     @Public()
     @Get()
-    getAllCompany() {
-        return this.companyService.getAllCompany();
+    getAllCompany(@Query() filter: CompanyFilter) {
+        return this.companyService.getAllCompany(filter);
     }
 
     @ApiBearerAuth()
