@@ -9,6 +9,7 @@ import { errorMessages } from 'src/response/errors/custom';
 import { SuccessResponse, setSuccessResponse } from '../response/success';
 import { Model } from 'mongoose';
 import { CompanyConverter } from './converter/company.converter';
+import { CompanyFilter } from './filter/company.filter';
 @Injectable()
 export class CompanyService {
     constructor(
@@ -43,22 +44,20 @@ export class CompanyService {
         throw new ConflictException(errorMessages.company.companyNotFound);
     }
     async getAllCompany(
-        @Query('page') page: number = 1, 
-        @Query('perPage') perPage : number = 10, 
-        @Query('phoneNumber') phoneNumber: string = null,
+        filter: CompanyFilter
     ): Promise<SuccessResponse> {
-        const startIndex = (page - 1) * perPage;
+        const startIndex = (filter.page - 1) * filter.perPage;
         
 
-        const phoneCondition = phoneNumber ? { phoneNumber: phoneNumber } : {};
+        const phoneCondition = filter.phoneNumber ? { phoneNumber: filter.phoneNumber } : {};
         const totalJobPosts = await this.companyModel.countDocuments(({...phoneCondition })).exec();
 
-        const existingCompanies = await this.companyModel.find({...phoneCondition}).skip(startIndex).limit(perPage).exec();
+        const existingCompanies = await this.companyModel.find({...phoneCondition}).skip(startIndex).limit(filter.perPage).exec();
         const companyDtos: CompanyDto[] = existingCompanies.map((company) => CompanyConverter.toDto(company));
         return setSuccessResponse('Lấy danh sách công ty thành công', {
             companyDtos: companyDtos,
-            page: page,
-            perPage: perPage,
+            page: filter.page,
+            perPage: filter.perPage,
             totalItems: totalJobPosts,
         });
     }
