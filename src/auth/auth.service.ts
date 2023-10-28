@@ -114,4 +114,24 @@ export class AuthService {
     async hashByBcrypt(data: string) {
         return bcrypt.hash(data, 10);
     }
+    async getUserEmailFromToken(token: string): Promise<string | null> {
+        try {
+            const decodedToken = this.jwtService.verify(token, {
+                secret: jwtConstants.secret,
+            });
+            if (decodedToken && decodedToken.id) {
+                
+                const userId = decodedToken.id;
+                console.log('User ID:', userId); // In ra userId
+                const user = await this.userAccountService.getProfile(userId);
+                if (user) {
+                    return user.email;
+                }
+            }
+        } catch (error) {
+            // Xử lý lỗi nếu có
+        }
+
+        return null;
+    }
 }
