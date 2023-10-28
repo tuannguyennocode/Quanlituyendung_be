@@ -5,6 +5,7 @@ import { Public } from 'src/auth/auth.public.decorator';
 import { CreateCompanyForm } from './form/createcompanyform';
 import { CompanyService } from './company.service';
 import { UpdateCompanyForm } from './form/updatecompanyform';
+import { CompanyFilter } from './filter/company.filter';
 @ApiTags('Company')
 @Controller('company')
 @UsePipes()
@@ -24,8 +25,8 @@ export class CompanyController {
     @ApiBearerAuth()
     @Public()
     @Get()
-    getAllCompany(@Query('page') page: number, @Query('perPage') perPage: number, @Query('phoneNumber') phoneNumber: string) {
-        return this.companyService.getAllCompany(page, perPage, phoneNumber);
+    getAllCompany(@Query() filter: CompanyFilter) {
+        return this.companyService.getAllCompany(filter);
     }
 
     @ApiBearerAuth()

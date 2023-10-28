@@ -11,6 +11,7 @@ import { errorMessages } from 'src/response/errors/custom';
 import { SuccessResponse, setSuccessResponse } from '../response/success';
 import { UpdateJobPostingForm } from './form/updatejobposting.form';
 import { JobPostingConverter } from './converter/jobposting.converter';
+import { JobPostingFilter } from './filter/jobposting.filter';
 @Injectable()
 export class JobPostingService {
     constructor(
@@ -48,18 +49,18 @@ export class JobPostingService {
         throw new ConflictException(errorMessages.jobPosting.jobPostingNotFound);
     }
     async getAllJobPost(
-        @Query('page') page: number = 1, 
-        @Query('perPage') perPage : number = 10): Promise<SuccessResponse> {
-        const startIndex = (page - 1) * perPage;
+        filter: JobPostingFilter
+        ): Promise<SuccessResponse> {
+        const startIndex = (filter.page - 1) * filter.perPage;
         const totalJobPosts = await this.jobPostingModel.countDocuments().exec();
-        const existingJobPosts = await this.jobPostingModel.find().skip(startIndex).limit(perPage).exec();
+        const existingJobPosts = await this.jobPostingModel.find().skip(startIndex).limit(filter.perPage).exec();
         const jobPostingDtos: JobPostingDto[] = existingJobPosts.map((jobPosting) =>
             JobPostingConverter.toDto(jobPosting),
         );
         return setSuccessResponse('Lấy danh sách tuyển dụng thành công', {
             jobPostings: jobPostingDtos,
-            page: page,
-            perPage: perPage,
+            page: filter.page,
+            perPage: filter.perPage,
             totalItems: totalJobPosts,
         });
     }

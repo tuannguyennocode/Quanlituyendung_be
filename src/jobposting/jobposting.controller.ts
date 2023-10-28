@@ -6,6 +6,7 @@ import { JobPostingService } from './jobposting.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/auth.public.decorator';
 import { UpdateJobPostingForm } from './form/updatejobposting.form';
+import { JobPostingFilter } from './filter/jobposting.filter';
 @ApiTags('job-posting')
 @Controller('job-posting')
 @UsePipes()
@@ -26,8 +27,8 @@ export class JobpostingController {
     @ApiBearerAuth()
     @Public()
     @Get()
-    getAllJobPost(@Query('page') page: number, @Query('perPage') perPage: number) {
-        return this.jobPostingService.getAllJobPost(page, perPage);
+    getAllJobPost(@Query() filter: JobPostingFilter) {
+        return this.jobPostingService.getAllJobPost(filter);
     }
 
     @ApiBearerAuth()
