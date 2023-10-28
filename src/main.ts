@@ -8,7 +8,6 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
-  console.log(process.env.MAILGUN_API_KEY)
   app.setGlobalPrefix("/api");
   SwaggerModule.setup("api", app, createDocument(app), {
     customSiteTitle: "Backend Generator",
