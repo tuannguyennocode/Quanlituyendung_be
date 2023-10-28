@@ -6,6 +6,7 @@ import { createDocument } from "./swagger/swagger";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  console.log(process.env.MAILGUN_API_KEY)
   app.setGlobalPrefix("/api");
   SwaggerModule.setup("api", app, createDocument(app), {
     customSiteTitle: "Backend Generator",
