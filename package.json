@@ -19,6 +19,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@automapper/core": "^8.7.7",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.0.1",
     "@nestjs/core": "^10.0.0",
@@ -33,6 +34,7 @@
     "class-validator": "^0.14.0",
     "date-fns": "^2.30.0",
     "mongoose": "^7.5.0",
+    "nestjsx-automapper": "^3.1.4",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",

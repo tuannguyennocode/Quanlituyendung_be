@@ -8,6 +8,10 @@ import { JobPostingModule } from './jobposting/jobposting.module';
 import { ErrorsFilter } from './response/errors/errors.filter';
 import { APP_FILTER } from '@nestjs/core';
 import { CompanyModule } from './company/company.module';
+import { AutomapperModule } from 'nestjsx-automapper';
+@Module({
+    imports: [AutomapperModule.forRoot()],
+})
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -18,7 +22,7 @@ import { CompanyModule } from './company/company.module';
         UserAccountModule,
         AuthModule,
         JobPostingModule,
-        CompanyModule
+        CompanyModule,
     ],
     providers: [
         {
