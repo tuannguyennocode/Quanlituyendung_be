@@ -6,8 +6,8 @@ const transporter = nodemailer.createTransport({
     secure: true,
     auth: {
         // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-        user: 'postmaster@sandbox69d767d28b5744c5b77581420c1f3b68.mailgun.org',
-        pass: '5c1fc010dc7328513d97f44ef07efa54-324e0bb2-39e5f072',
+        user: 'postmaster@sandboxdaf0f5d379974e93baa28664752c644a.mailgun.org',
+        pass: 'cc36c92f8ab5a4a497c33abdb7550131-324e0bb2-7cf2a618',
     },
 });
 
