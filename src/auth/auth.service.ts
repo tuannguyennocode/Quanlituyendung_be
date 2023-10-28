@@ -11,8 +11,8 @@ import { errorMessages } from 'src/response/errors/custom';
 import { SuccessResponse, setSuccessResponse } from '../response/success';
 import { LoginForm } from './form/login.form';
 import { jwtConstants } from './constants';
-import { sendEmail } from 'src/utils/sendEmail';
-import { confirmEmailLink } from 'src/utils/confirmEmailLink';
+import { sendEmail } from '../utils/sendEmail';
+import { confirmEmailLink } from '../utils/confirmEmailLink';
 import { State } from 'src/user-account/enum/state.enum';
 @Injectable()
 export class AuthService {

@@ -10,8 +10,8 @@ import { getUserIdFromRedis } from '../redis';
 import { Public } from 'src/auth/auth.public.decorator';
 import { State } from './enum/state.enum';
 import { resendEmailForm } from './form/resend-email.form';
-import { sendEmail } from 'src/utils/sendEmail';
-import { confirmEmailLink } from 'src/utils/confirmEmailLink';
+import { sendEmail } from '../utils/sendEmail';
+import { confirmEmailLink } from '../utils/confirmEmailLink';
 @ApiTags('User')
 @Controller('user')
 export class UserAccountController {
