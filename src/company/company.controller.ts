@@ -1,7 +1,7 @@
 import { Get, Put, Delete, Param, Body, Post, Request, UsePipes, Query } from '@nestjs/common';
 import { Controller } from '@nestjs/common/decorators';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/auth/auth.public.decorator';
+import { Public } from '../auth/auth.public.decorator';
 import { CreateCompanyForm } from './form/createcompanyform';
 import { CompanyService } from './company.service';
 import { UpdateCompanyForm } from './form/updatecompanyform';

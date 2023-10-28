@@ -4,7 +4,7 @@ import { CreateJobPostingForm } from './form/createjobposting.form';
 import { JobPostingService } from './jobposting.service';
 
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/auth/auth.public.decorator';
+import { Public } from '../auth/auth.public.decorator';
 import { UpdateJobPostingForm } from './form/updatejobposting.form';
 import { JobPostingFilter } from './filter/jobposting.filter';
 @ApiTags('job-posting')
