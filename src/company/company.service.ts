@@ -5,7 +5,7 @@ import { Company } from './company.schema';
 import { CreateCompanyForm } from './form/createcompanyform';
 import { UpdateCompanyForm } from './form/updatecompanyform';
 import { CompanyDto } from './dto/companydto';
-import { errorMessages } from 'src/response/errors/custom';
+import { errorMessages } from '../response/errors/custom';
 import { SuccessResponse, setSuccessResponse } from '../response/success';
 import { Model } from 'mongoose';
 import { CompanyConverter } from './converter/company.converter';

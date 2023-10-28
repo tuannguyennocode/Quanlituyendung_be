@@ -7,7 +7,7 @@ import { UpdateProfileForm } from './form/update-profile.form';
 import { UserProfileDto } from './dto/user-profile.dto';
 import { UserListDto } from './dto/user-list.dto';
 import { getUserIdFromRedis } from '../redis';
-import { Public } from 'src/auth/auth.public.decorator';
+import { Public } from '../auth/auth.public.decorator';
 import { State } from './enum/state.enum';
 import { resendEmailForm } from './form/resend-email.form';
 import { sendEmail } from '../utils/sendEmail';

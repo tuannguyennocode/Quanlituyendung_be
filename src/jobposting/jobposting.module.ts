@@ -3,7 +3,7 @@ import { JobPostingService } from './jobposting.service';
 import { JobpostingController } from './jobposting.controller';
 import { JobPostingSchema } from './jobposting.schema';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CompanyModule } from 'src/company/company.module';
+import { CompanyModule } from '../company/company.module';
 
 const JOB_POSTING_MODEL = MongooseModule.forFeature([{ name: 'JobPosting', schema: JobPostingSchema }]);
 @Module({
