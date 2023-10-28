@@ -10,6 +10,6 @@ const COMPANY_MODEL = MongooseModule.forFeature([{ name: 'Company', schema: Comp
     imports: [COMPANY_MODEL],
     providers: [CompanyService, CompanyConverter],
     controllers: [CompanyController],
-    exports: [CompanyService, COMPANY_MODEL],
+    exports: [CompanyService, COMPANY_MODEL, CompanyConverter],
 })
 export class CompanyModule {}

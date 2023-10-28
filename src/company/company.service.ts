@@ -38,11 +38,9 @@ export class CompanyService {
     }
     async getAllCompany(): Promise<SuccessResponse> {
         const existingCompanies = await this.companyModel.find().exec();
-        const companyDtos: CompanyDto[] = existingCompanies.map((company) => (CompanyConverter.toDto(company)));
-        
+        const companyDtos: CompanyDto[] = existingCompanies.map((company) => CompanyConverter.toDto(company));
 
         return setSuccessResponse('Lấy danh sách công ty thành công', companyDtos);
-
     }
     async deleteCompany(@Param('id') id: string): Promise<SuccessResponse> {
         // Kiểm tra xem jobpost đã tồn tại trong cơ sở dữ liệu chưa
@@ -68,13 +66,4 @@ export class CompanyService {
         }
         throw new ConflictException(errorMessages.company.companyNotFound);
     }
-    async getAllJobPostingByCompanyId(companyId: string): Promise<JobPosting[]> {
-          const company = await this.companyModel.findById(companyId).exec();
-    
-          if (!company) {
-            throw new ConflictException(errorMessages.company.companyNotFound);
-          }
-          const jobPostings = await this.jobPostingModel.find({ companyId: companyId }).exec();
-          return jobPostings;
-      }
 }
