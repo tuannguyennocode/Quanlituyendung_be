@@ -1,10 +1,7 @@
 // company-profile.ts
 import { Injectable } from '@nestjs/common';
-import { ProfileBase, Profile, AutoMapper } from 'nestjsx-automapper';
 import { JobPosting } from '../jobposting.schema';
 import { JobPostingDto } from '../dto/jobposting.dto';
-import { Company } from 'src/company/company.schema';
-import { CompanyDto } from 'src/company/dto/companydto';
 
 @Injectable()
 export class JobPostingConverter {

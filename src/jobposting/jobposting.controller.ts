@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Post, Body, Get, Param, Put, Delete, Request,UsePipes  } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, Delete, Request, UsePipes, Query } from '@nestjs/common';
 import { CreateJobPostingForm } from './form/createjobposting.form';
 import { JobPostingService } from './jobposting.service';
 
@@ -26,8 +26,8 @@ export class JobpostingController {
     @ApiBearerAuth()
     @Public()
     @Get()
-    getAllJobPost() {
-        return this.jobPostingService.getAllJobPost();
+    getAllJobPost(@Query('page') page: number, @Query('perPage') perPage: number) {
+        return this.jobPostingService.getAllJobPost(page, perPage);
     }
 
     @ApiBearerAuth()
