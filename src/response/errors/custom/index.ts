@@ -29,12 +29,6 @@ export const errorMessages = {
             code: '60006',
         },
     },
-    user: {
-        notFound: {
-            message: 'user not found',
-            code: '60101',
-        },
-    },
     jobPosting: {
         jobPostingAlreadyExist: {
             message: 'Bài tuyển dụng này đã tồn tại',
@@ -83,6 +77,18 @@ export const errorMessages = {
         notFulfilled: {
             message: 'not all product info is fulfilled',
             code: '60402',
+        },
+    },
+    user: {
+        notFound: {
+            message: 'Không tìm thấy người dùng',
+            code: '60101',
+        },
+        global: {
+            internalError: {
+                message: 'something went wrong',
+                code: '70000',
+            },
         },
     },
     global: {
