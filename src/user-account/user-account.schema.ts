@@ -23,8 +23,8 @@ export class UserAccount extends CommonSchemaProps {
     status: Status;
     @Prop()
     hashRt: string;
-    @Prop()
-    profile: string;
+    @Prop({ type: JSON })
+    profile: Object;
 }
 
 export const UserAccountSchema = SchemaFactory.createForClass(UserAccount);
