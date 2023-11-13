@@ -57,26 +57,24 @@ export const errorMessages = {
             code: '70202',
         },
     },
-    role: {
-        notFound: {
-            message: 'role not found',
-            code: '60201',
+    masterData: {
+        masterDataAlreadyExist: {
+            message: 'Loại master data này đã tồn tại',
+            code: '70203',
+        },
+        masterDataNotFound: {
+            message: 'Không tìm thấy master data',
+            code: '70203',
         },
     },
-    category: {
-        notFound: {
-            message: 'category not found',
-            code: '60301',
+    masterDataType: {
+        masterDataTypeAlreadyExist: {
+            message: 'master data type này đã tồn tại',
+            code: '70203',
         },
-    },
-    product: {
-        notFound: {
-            message: 'product not found',
-            code: '60401',
-        },
-        notFulfilled: {
-            message: 'not all product info is fulfilled',
-            code: '60402',
+        masterDataTypeNotFound: {
+            message: 'Không tìm thấy master data type',
+            code: '70203',
         },
     },
     user: {
