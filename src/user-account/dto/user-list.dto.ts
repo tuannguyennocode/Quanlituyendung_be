@@ -10,7 +10,7 @@ export class UserListDto {
     @ApiProperty()
     email: string;
     @ApiProperty()
-    profile: string;
+    profile: Object;
     @ApiProperty()
     role: string;
     @ApiProperty()

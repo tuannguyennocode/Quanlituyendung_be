@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CompanyFilter {
+export class CommonFilter {
     @ApiProperty({ required: false, type: Number })
     page?: number = 1;
 

@@ -44,7 +44,7 @@ export class UserAccountController {
         isArray: true,
         type: UserListDto,
     })
-    @Get('list')
+    @Get()
     async getListUserAccount() {
         const listUserAccount = await this.userAccountService.findAll();
         return setSuccessResponse('Lấy danh sách tài khoản user thành công', listUserAccount);

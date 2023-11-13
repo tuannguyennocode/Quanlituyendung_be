@@ -9,7 +9,7 @@ import { errorMessages } from '../response/errors/custom';
 import { SuccessResponse, setSuccessResponse } from '../response/success';
 import { Model } from 'mongoose';
 import { CompanyConverter } from './converter/company.converter';
-import { CompanyFilter } from './filter/company.filter';
+import { CommonFilter } from 'src/common/commonFilter';
 @Injectable()
 export class CompanyService {
     constructor(
@@ -17,10 +17,10 @@ export class CompanyService {
         private readonly companyModel: Model<Company>,
     ) {}
 
-    async createCompany(@Body() createCompanyForm: CreateCompanyForm, @Request() req): Promise<SuccessResponse> {
+    async createCompany(@Body() createCompanyForm: CreateCompanyForm): Promise<SuccessResponse> {
         const { name, phoneNumber, email } = createCompanyForm;
-        const exsitingCompany = await this.companyModel.findOne({ name: name }).exec();
-        if (exsitingCompany) {
+        const existCompany = await this.companyModel.findOne({ name: name }).exec();
+        if (existCompany) {
             throw new ConflictException(errorMessages.company.companyNameAlreadyExist);
         }
         const existingCompanyByPhoneNumber = await this.companyModel.findOne({ phoneNumber: phoneNumber }).exec();
@@ -35,6 +35,7 @@ export class CompanyService {
         await newCompany.save();
         return setSuccessResponse('Tạo công ty thành công');
     }
+
     async getCompanyById(@Param('id') id: string): Promise<SuccessResponse> {
         const existingCompany = await this.companyModel.findById(id).exec();
         if (existingCompany) {
@@ -43,12 +44,11 @@ export class CompanyService {
         }
         throw new ConflictException(errorMessages.company.companyNotFound);
     }
+
     async getAllCompany(
-        filter: CompanyFilter
+        filter: CommonFilter
     ): Promise<SuccessResponse> {
         const startIndex = (filter.page - 1) * filter.perPage;
-        
-
         const phoneCondition = filter.phoneNumber ? { phoneNumber: filter.phoneNumber } : {};
         const totalJobPosts = await this.companyModel.countDocuments(({...phoneCondition })).exec();
 
@@ -61,6 +61,7 @@ export class CompanyService {
             totalItems: totalJobPosts,
         });
     }
+
     async deleteCompany(@Param('id') id: string): Promise<SuccessResponse> {
         const existingCompany = await this.companyModel.findById(id).exec();
         if (existingCompany) {
@@ -69,6 +70,7 @@ export class CompanyService {
         }
         throw new ConflictException(errorMessages.company.companyNotFound);
     }
+
     async updateCompany(@Body() updateCompanyForm: UpdateCompanyForm): Promise<SuccessResponse> {
         const existingCompany = await this.companyModel.findById(updateCompanyForm._id).exec();
         if (existingCompany) {
