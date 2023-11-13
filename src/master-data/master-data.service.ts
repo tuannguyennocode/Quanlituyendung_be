@@ -6,7 +6,7 @@ import { SuccessResponse, setSuccessResponse } from 'src/response/success';
 import { CreateMasterDataForm } from './form/create-master-data.form';
 import { errorMessages } from 'src/response/errors/custom';
 import { MasterDataConverter } from './converter/master-data.converter';
-import { CommonFilter } from 'src/common/commonFilter';
+import { CommonFilter } from '@/common/commonFilter';
 import { MasterDataType } from 'src/master-data-type/master-data-type.schema';
 
 @Injectable()
@@ -30,9 +30,12 @@ export class MasterDataService {
     async getMasterDataById(@Param('id') id: string): Promise<SuccessResponse> {
         const existMasterData = await this.masterDataModel.findById(id).exec();
         if (existMasterData) {
-            const masterDataTypes = await this.masterDataTypeModel.find({ parentKind: existMasterData.kind }).select('_id name parentKind').exec();
+            const masterDataTypes = await this.masterDataTypeModel
+                .find({ parentKind: existMasterData.kind })
+                .select('_id name parentKind')
+                .exec();
             const masterDataDto = MasterDataConverter.toDto(existMasterData);
-            return setSuccessResponse('Lấy master data thành công', {...masterDataDto,masterDataTypes});
+            return setSuccessResponse('Lấy master data thành công', { ...masterDataDto, masterDataTypes });
         }
         throw new ConflictException(errorMessages.masterData.masterDataNotFound);
     }
@@ -52,7 +55,7 @@ export class MasterDataService {
                         _id: 1,
                         name: 1,
                         parentKind: 1,
-                        masterDataTypes: { _id: 1, name: 1,parentKind: 1 },
+                        masterDataTypes: { _id: 1, name: 1, parentKind: 1 },
                     },
                 },
             ])

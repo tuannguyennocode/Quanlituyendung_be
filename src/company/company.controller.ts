@@ -5,7 +5,7 @@ import { Public } from '../auth/auth.public.decorator';
 import { CreateCompanyForm } from './form/createcompanyform';
 import { CompanyService } from './company.service';
 import { UpdateCompanyForm } from './form/updatecompanyform';
-import { CommonFilter } from 'src/common/commonFilter';
+import { CommonFilter } from '@/common/commonFilter';
 import { CompanyDto } from './dto/companydto';
 @ApiTags('Company')
 @Controller('company')
