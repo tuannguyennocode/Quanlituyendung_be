@@ -9,7 +9,7 @@ import { errorMessages } from '../response/errors/custom';
 import { SuccessResponse, setSuccessResponse } from '../response/success';
 import { Model } from 'mongoose';
 import { CompanyConverter } from './converter/company.converter';
-import { CommonFilter } from '~/common/commonFilter';
+import { CommonFilter } from '../common/commonFilter';
 @Injectable()
 export class CompanyService {
     constructor(

@@ -6,7 +6,7 @@ import { SuccessResponse, setSuccessResponse } from 'src/response/success';
 import { CreateMasterDataForm } from './form/create-master-data.form';
 import { errorMessages } from 'src/response/errors/custom';
 import { MasterDataConverter } from './converter/master-data.converter';
-import { CommonFilter } from '~/common/commonFilter';
+import { CommonFilter } from '../common/commonFilter';
 import { MasterDataType } from 'src/master-data-type/master-data-type.schema';
 
 @Injectable()
