@@ -3,7 +3,7 @@ import { MasterDataService } from './master-data.service';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateMasterDataForm } from './form/create-master-data.form';
 import { Public } from 'src/auth/auth.public.decorator';
-import { CommonFilter } from 'src/common/commonFilter';
+import { CommonFilter } from '~/common/commonFilter';
 import { UpdateMasterDataForm } from './form/update-master-data.form';
 import { MasterDataDto } from './dto/master-data.dto';
 
@@ -32,7 +32,7 @@ export class MasterDataController {
     getMasterData(@Param('id') id: string) {
         return this.masterDataService.getMasterDataById(id);
     }
-    
+
     @ApiBearerAuth()
     @Public()
     @Get()

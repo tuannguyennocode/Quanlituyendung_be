@@ -9,7 +9,7 @@ import { errorMessages } from '../response/errors/custom';
 import { SuccessResponse, setSuccessResponse } from '../response/success';
 import { Model } from 'mongoose';
 import { CompanyConverter } from './converter/company.converter';
-import { CommonFilter } from 'src/common/commonFilter';
+import { CommonFilter } from '~/common/commonFilter';
 @Injectable()
 export class CompanyService {
     constructor(
@@ -45,14 +45,16 @@ export class CompanyService {
         throw new ConflictException(errorMessages.company.companyNotFound);
     }
 
-    async getAllCompany(
-        filter: CommonFilter
-    ): Promise<SuccessResponse> {
+    async getAllCompany(filter: CommonFilter): Promise<SuccessResponse> {
         const startIndex = (filter.page - 1) * filter.perPage;
         const phoneCondition = filter.phoneNumber ? { phoneNumber: filter.phoneNumber } : {};
-        const totalJobPosts = await this.companyModel.countDocuments(({...phoneCondition })).exec();
+        const totalJobPosts = await this.companyModel.countDocuments({ ...phoneCondition }).exec();
 
-        const existingCompanies = await this.companyModel.find({...phoneCondition}).skip(startIndex).limit(filter.perPage).exec();
+        const existingCompanies = await this.companyModel
+            .find({ ...phoneCondition })
+            .skip(startIndex)
+            .limit(filter.perPage)
+            .exec();
         const companyDtos: CompanyDto[] = existingCompanies.map((company) => CompanyConverter.toDto(company));
         return setSuccessResponse('Lấy danh sách công ty thành công', {
             companyDtos: companyDtos,
@@ -66,7 +68,7 @@ export class CompanyService {
         const existingCompany = await this.companyModel.findById(id).exec();
         if (existingCompany) {
             await existingCompany.deleteOne();
-            return setSuccessResponse('Xoá công ty thành công',);
+            return setSuccessResponse('Xoá công ty thành công');
         }
         throw new ConflictException(errorMessages.company.companyNotFound);
     }

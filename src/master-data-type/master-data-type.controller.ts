@@ -3,7 +3,7 @@ import { MasterDataTypeService } from './master-data-type.service';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateMasterDataTypeForm } from './form/create-master-data-type.form';
 import { Public } from 'src/auth/auth.public.decorator';
-import { CommonFilter } from 'src/common/commonFilter';
+import { CommonFilter } from '~/common/commonFilter';
 import { UpdateMasterDataTypeForm } from './form/update-master-data-type.form';
 import { MasterDataTypeDto } from './dto/master-data-type.dto';
 
