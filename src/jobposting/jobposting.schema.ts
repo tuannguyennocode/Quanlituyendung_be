@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { CommonSchemaProps } from 'src/common/commonSchemaProps';
+import { CommonSchemaProps } from '../common/commonSchemaProps';
 
 export type JobPostingDocument = HydratedDocument<JobPosting>;
 

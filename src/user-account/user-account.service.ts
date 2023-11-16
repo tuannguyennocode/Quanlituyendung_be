@@ -4,8 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserAccount } from './user-account.schema';
 import { SuccessResponse, setSuccessResponse } from '../response/success';
-import { UpdateProfileForm } from './form/update-profile.form';
-import { errorMessages } from 'src/response/errors/custom';
+import { errorMessages } from '../response/errors/custom';
 @Injectable()
 export class UserAccountService {
     constructor(

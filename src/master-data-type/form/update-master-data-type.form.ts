@@ -1,14 +1,12 @@
-/* eslint-disable prettier/prettier */
 import { ApiProperty } from "@nestjs/swagger";
 import mongoose from "mongoose";
 
-export class UserProfileDto {
+export class UpdateMasterDataTypeForm {
     @ApiProperty()
     _id: mongoose.Types.ObjectId;
     @ApiProperty()
-    createdAt: Date;
+    name: string;
+
     @ApiProperty()
-    email: string;
-    @ApiProperty()
-    profile: Object;
+    parentKind: string;
 }

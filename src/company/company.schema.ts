@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { CommonSchemaProps } from 'src/common/commonSchemaProps';
-import { JobPosting } from 'src/jobposting/jobposting.schema';
+import { CommonSchemaProps } from '../common/commonSchemaProps';
+import { JobPosting } from '../jobposting/jobposting.schema';
 
 export type CompanyDocument = HydratedDocument<Company>;
 

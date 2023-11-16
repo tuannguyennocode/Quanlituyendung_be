@@ -3,28 +3,45 @@ import { Controller, Post, Body, Get, Param, Put, Delete, Request, UsePipes, Que
 import { CreateJobPostingForm } from './form/createjobposting.form';
 import { JobPostingService } from './jobposting.service';
 
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/auth/auth.public.decorator';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Public } from '../auth/auth.public.decorator';
 import { UpdateJobPostingForm } from './form/updatejobposting.form';
 import { JobPostingFilter } from './filter/jobposting.filter';
-@ApiTags('job-posting')
+import { JobPostingDto } from './dto/jobposting.dto';
+@ApiTags('Job Posting')
 @Controller('job-posting')
 @UsePipes()
 export class JobpostingController {
     constructor(private readonly jobPostingService: JobPostingService) {}
     @ApiBearerAuth()
     @Post()
+    @ApiResponse({
+        status: 200,
+        description: 'OK',
+    })
     postJob(@Body() createJobPostingForm: CreateJobPostingForm, @Request() req) {
         return this.jobPostingService.createJobPost(createJobPostingForm, req);
     }
+
     @ApiBearerAuth()
     @Public()
+    @ApiResponse({
+        status: 200,
+        description: 'OK',
+        type: JobPostingDto,
+    })
     @Get(':id')
     getJobById(@Param('id') id: string) {
-        console.log(id);
         return this.jobPostingService.getJobPostById(id);
     }
+
     @ApiBearerAuth()
+    @ApiResponse({
+        status: 200,
+        description: 'OK',
+        isArray: true,
+        type: JobPostingDto,
+    })
     @Public()
     @Get()
     getAllJobPost(@Query() filter: JobPostingFilter) {
@@ -39,6 +56,10 @@ export class JobpostingController {
 
     @ApiBearerAuth()
     @Delete(':id')
+    @ApiResponse({
+        status: 200,
+        description: 'OK',
+    })
     deleteJobPost(@Param('id') id: string) {
         return this.jobPostingService.deleteJobPost(id);
     }

@@ -3,7 +3,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import { IsNotEmpty, IsObject, IsDateString } from 'class-validator';
-import { IsDateFormat } from 'src/validator/is-date-format.validator';
+import { IsDateFormat } from '../../validator/is-date-format.validator';
 
 export class UpdateJobPostingForm {
     @ApiProperty()

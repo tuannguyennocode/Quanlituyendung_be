@@ -1,13 +1,11 @@
 import * as nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.mailgun.org',
+    host: 'smtp.gmail.com',
     port: 465,
-    secure: true,
     auth: {
-        // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-        user: 'postmaster@sandboxdaf0f5d379974e93baa28664752c644a.mailgun.org',
-        pass: 'cc36c92f8ab5a4a497c33abdb7550131-324e0bb2-7cf2a618',
+        user: 'tuanbmt31122022@gmail.com',
+        pass: 'omkw vqll ogij eryq',
     },
 });
 

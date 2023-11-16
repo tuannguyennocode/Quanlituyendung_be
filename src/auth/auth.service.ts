@@ -1,19 +1,19 @@
 /* eslint-disable prettier/prettier */
 import { Body, Injectable, UnauthorizedException, ConflictException, ForbiddenException } from '@nestjs/common';
-import { UserAccountService } from 'src/user-account/user-account.service';
+import { UserAccountService } from '../user-account/user-account.service';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterForm } from './form/register.form';
 import * as bcrypt from 'bcrypt';
-import { UserAccount } from 'src/user-account/user-account.schema';
+import { UserAccount } from '../user-account/user-account.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { errorMessages } from 'src/response/errors/custom';
+import { errorMessages } from '../response/errors/custom';
 import { SuccessResponse, setSuccessResponse } from '../response/success';
 import { LoginForm } from './form/login.form';
 import { jwtConstants } from './constants';
-import { sendEmail } from 'src/utils/sendEmail';
-import { confirmEmailLink } from 'src/utils/confirmEmailLink';
-import { State } from 'src/user-account/enum/state.enum';
+import { sendEmail } from '../utils/sendEmail';
+import { confirmEmailLink } from '../utils/confirmEmailLink';
+import { State } from '../user-account/enum/state.enum';
 @Injectable()
 export class AuthService {
     constructor(

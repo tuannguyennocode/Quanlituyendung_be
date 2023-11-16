@@ -2,7 +2,7 @@
 import { Module } from "@nestjs/common";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
-import { UserAccountModule } from "src/user-account/user-account.module";
+import { UserAccountModule } from "../user-account/user-account.module";
 import { JwtModule } from "@nestjs/jwt";
 import { APP_GUARD } from "@nestjs/core";
 import { AtStrategies, RtStrategies } from "./strategies";
