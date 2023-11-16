@@ -8,12 +8,9 @@ import { JobPostingModule } from './jobposting/jobposting.module';
 import { ErrorsFilter } from './response/errors/errors.filter';
 import { APP_FILTER } from '@nestjs/core';
 import { CompanyModule } from './company/company.module';
-<<<<<<< HEAD
 import { AuditableMiddleware } from './auditable/auditable.middleware';
-=======
 import { MasterDataModule } from './master-data/master-data.module';
 import { MasterDataTypeModule } from './master-data-type/master-data-type.module';
->>>>>>> master
 @Module({
     imports: [
         ConfigModule.forRoot({
