@@ -26,8 +26,11 @@ export class AuthService {
     async signIn(loginForm: LoginForm): Promise<SuccessResponse> {
         const { email, password } = loginForm;
         const user = await this.userAccountService.findOneByEmailForAuthentication(email);
+        if(user==null){
+            throw new ConflictException(errorMessages.auth.wrongCredentials);
+        }
         const { role, state, status } = user;
-        if (user && (await bcrypt.compare(password, user?.password))) {
+        if (await bcrypt.compare(password, user?.password)) {
             const tokens = await this.getTokens(user);
 
             const rtHash = await this.hashByBcrypt(tokens.refresh_token);
