@@ -9,10 +9,6 @@ export class UpdateJobPostingForm {
     @ApiProperty()
     _id: mongoose.Types.ObjectId;
 
-    @ApiProperty({ type: String })
-    @IsNotEmpty({ message: 'companyId can not empty' })
-    companyId: string;
-
     @ApiProperty()
     @IsNotEmpty({ message: 'name can not empty' })
     name: string;
