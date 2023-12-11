@@ -60,6 +60,7 @@ export class UserAccountController {
         const id = req.params.id;
         const redisData = (await getDataFromRedis(id)) as string;
         const redisDataJson = JSON.parse(redisData);
+        console.log(redisDataJson);
         this.userAccountService.updateOne(redisDataJson?.userId, { state: State.ACTIVE });
         res.redirect(redisDataJson?.hostUI);
     }
