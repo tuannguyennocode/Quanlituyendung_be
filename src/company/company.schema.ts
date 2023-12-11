@@ -16,6 +16,9 @@ export class Company extends CommonSchemaProps {
 
     @Prop({ unique: true })
     email: string;
+    
+    @Prop()
+    avatar_url: string;
 
     @Prop()
     address: string;
