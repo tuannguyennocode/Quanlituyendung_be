@@ -40,7 +40,7 @@ export class AuthService {
         }
     }
     async signUp(@Body() registerForm: RegisterForm): Promise<SuccessResponse> {
-        const { password, email } = registerForm;
+        const { password, email, hostUI } = registerForm;
         let userId: string;
         const userExistingEmail = await this.userAccountService.findOneByEmailForAuthentication(email);
         if (userExistingEmail && userExistingEmail.state !== State.UNAUTHENTICATED) {
@@ -50,13 +50,13 @@ export class AuthService {
             this.userAccountService.updateOne(userId, {
                 password: await this.hashByBcrypt(password),
             });
-            await sendEmail(email, await confirmEmailLink(userId));
+            await sendEmail(email, await confirmEmailLink(userId, hostUI));
         } else {
             registerForm.password = await this.hashByBcrypt(password);
             const newUser = new this.userModel(registerForm);
             const user = await newUser.save();
             userId = user.id;
-            await sendEmail(email, await confirmEmailLink(userId));
+            await sendEmail(email, await confirmEmailLink(userId, hostUI));
         }
 
         return setSuccessResponse('Đăng ký tài khoản thành công', { email, userId });

@@ -5,5 +5,6 @@ export class resendEmailForm {
     email: string;
     @ApiProperty()
     userId: string;
-
+    @ApiProperty()
+    hostUI: string;
 }

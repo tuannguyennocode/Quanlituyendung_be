@@ -7,13 +7,13 @@ export const redis = new Redis({
     // port: 6379,
 });
 
-export const getUserIdFromRedis = (id: string) => {
+export const getDataFromRedis = (id: string) => {
     return new Promise((resolve, reject) => {
-        redis.get(id, (err, userId) => {
+        redis.get(id, (err, data) => {
             if (err) {
                 reject(err);
             } else {
-                resolve(userId);
+                resolve(data);
             }
         });
     });
