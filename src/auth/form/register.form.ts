@@ -6,4 +6,6 @@ export class RegisterForm {
   password: string;
   @ApiProperty()
   email: string;
+  @ApiProperty()
+  hostUI: string; 
 }
