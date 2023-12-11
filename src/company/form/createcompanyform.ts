@@ -8,6 +8,9 @@ export class CreateCompanyForm {
     name: string;
 
     @ApiProperty()
+    avatar_url: string;
+
+    @ApiProperty()
     @IsNotEmpty({ message: 'phoneNumber can not empty' })
     phoneNumber: string;
 
@@ -28,6 +31,6 @@ export class CreateCompanyForm {
     web_url: string;
 
     @ApiProperty()
-    @IsNotEmpty({ message: 'descripiton can not empty' })
+    @IsNotEmpty({ message: 'description can not empty' })
     description: string;
 }

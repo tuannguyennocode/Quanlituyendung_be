@@ -72,20 +72,33 @@ export class CompanyService {
         }
         throw new ConflictException(errorMessages.company.companyNotFound);
     }
-
-    async updateCompany(@Body() updateCompanyForm: UpdateCompanyForm): Promise<SuccessResponse> {
-        const existingCompany = await this.companyModel.findById(updateCompanyForm._id).exec();
-        if (existingCompany) {
-            existingCompany.name = updateCompanyForm.name;
-            existingCompany.phoneNumber = updateCompanyForm.phoneNumber;
-            existingCompany.email = updateCompanyForm.email;
-            existingCompany.address = updateCompanyForm.address;
-            existingCompany.company_size = updateCompanyForm.company_size;
-            existingCompany.web_url = updateCompanyForm.web_url;
-            existingCompany.description = updateCompanyForm.description;
-            await existingCompany.save();
-            return setSuccessResponse('Cập nhật công ty thành công');
+    async updateCompany(@Body() updateData: Partial<Company>, @Request() req): Promise<SuccessResponse> {
+        const existingCompany = await this.companyModel.findById(updateData._id).exec();
+        if (!existingCompany) {
+            throw new ConflictException(errorMessages.company.companyNotFound);
         }
-        throw new ConflictException(errorMessages.company.companyNotFound);
+        if (updateData.name != existingCompany.name) {
+            const exsitingCompany = await this.companyModel.findOne({ name: updateData.name }).exec();
+            if (exsitingCompany) {
+                throw new ConflictException(errorMessages.company.companyNameAlreadyExist);
+            }
+        }
+        if (updateData.phoneNumber != existingCompany.phoneNumber) {
+            const existingCompanyByPhoneNumber = await this.companyModel
+                .findOne({ phoneNumber: updateData.phoneNumber })
+                .exec();
+            if (existingCompanyByPhoneNumber) {
+                throw new ConflictException(errorMessages.company.companyPhoneNumberAlreadyExist);
+            }
+        }
+        if (updateData.email != existingCompany.email) {
+            const existingCompanyByEmail = await this.companyModel.findOne({ email: updateData.email }).exec();
+            if (existingCompanyByEmail) {
+                throw new ConflictException(errorMessages.company.companyEmailAlreadyExist);
+            }
+        }
+        Object.assign(existingCompany, updateData);
+        existingCompany.save();
+        return setSuccessResponse('Cập nhật công ty thành công');
     }
 }

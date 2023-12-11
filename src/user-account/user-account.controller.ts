@@ -1,12 +1,12 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get, Post, Put, Request } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Request, Response } from '@nestjs/common';
 import { UserAccountService } from './user-account.service';
-import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiResponse, ApiTags, getSchemaPath } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { setSuccessResponse } from '../response/success';
 import { UpdateProfileForm } from './form/update-profile.form';
 import { UserProfileDto } from './dto/user-profile.dto';
 import { UserListDto } from './dto/user-list.dto';
-import { getUserIdFromRedis } from '../redis';
+import { getDataFromRedis } from '../redis';
 import { Public } from '../auth/auth.public.decorator';
 import { State } from './enum/state.enum';
 import { resendEmailForm } from './form/resend-email.form';
@@ -56,10 +56,12 @@ export class UserAccountController {
         description: 'OK',
     })
     @Get('confirm/:id')
-    async confirmEmailToChangeState(@Request() req: any) {
+    async confirmEmailToChangeState(@Request() req: any, @Response() res: any) {
         const id = req.params.id;
-        const userId = (await getUserIdFromRedis(id)) as string;
-        this.userAccountService.updateOne(userId, { state: State.ACTIVE });
+        const redisData = (await getDataFromRedis(id)) as string;
+        const redisDataJson = JSON.parse(redisData);
+        await this.userAccountService.updateOne(redisDataJson?.userId, { state: State.ACTIVE });
+        res.redirect(redisDataJson?.hostUI);
     }
     @ApiBearerAuth()
     @Public()
@@ -70,7 +72,10 @@ export class UserAccountController {
     })
     @Post('resend-email')
     async resendEmail(@Body() resendEmailForm: resendEmailForm) {
-        await sendEmail(resendEmailForm?.email, await confirmEmailLink(resendEmailForm?.userId));
+        await sendEmail(
+            resendEmailForm?.email,
+            await confirmEmailLink(resendEmailForm?.userId, resendEmailForm?.hostUI),
+        );
         return setSuccessResponse('Gửi lại thông tin xác thực email thành công');
     }
 }

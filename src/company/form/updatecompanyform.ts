@@ -9,6 +9,10 @@ export class UpdateCompanyForm {
     @ApiProperty()
     @IsNotEmpty({ message: 'name can not empty' })
     name: string;
+    
+    @ApiProperty()
+    @IsNotEmpty({ message: 'name can not empty' })
+    avatar_url: string;
 
     @ApiProperty()
     @IsNotEmpty({ message: 'phoneNumber can not empty' })

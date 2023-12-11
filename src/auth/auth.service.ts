@@ -26,8 +26,11 @@ export class AuthService {
     async signIn(loginForm: LoginForm): Promise<SuccessResponse> {
         const { email, password } = loginForm;
         const user = await this.userAccountService.findOneByEmailForAuthentication(email);
+        if(user==null){
+            throw new ConflictException(errorMessages.auth.wrongCredentials);
+        }
         const { role, state, status } = user;
-        if (user && (await bcrypt.compare(password, user?.password))) {
+        if (await bcrypt.compare(password, user?.password)) {
             const tokens = await this.getTokens(user);
 
             const rtHash = await this.hashByBcrypt(tokens.refresh_token);
@@ -40,7 +43,7 @@ export class AuthService {
         }
     }
     async signUp(@Body() registerForm: RegisterForm): Promise<SuccessResponse> {
-        const { password, email } = registerForm;
+        const { password, email, hostUI } = registerForm;
         let userId: string;
         const userExistingEmail = await this.userAccountService.findOneByEmailForAuthentication(email);
         if (userExistingEmail && userExistingEmail.state !== State.UNAUTHENTICATED) {
@@ -50,13 +53,13 @@ export class AuthService {
             this.userAccountService.updateOne(userId, {
                 password: await this.hashByBcrypt(password),
             });
-            await sendEmail(email, await confirmEmailLink(userId));
+            await sendEmail(email, await confirmEmailLink(userId, hostUI));
         } else {
             registerForm.password = await this.hashByBcrypt(password);
             const newUser = new this.userModel(registerForm);
             const user = await newUser.save();
             userId = user.id;
-            await sendEmail(email, await confirmEmailLink(userId));
+            await sendEmail(email, await confirmEmailLink(userId, hostUI));
         }
 
         return setSuccessResponse('Đăng ký tài khoản thành công', { email, userId });
@@ -113,5 +116,25 @@ export class AuthService {
     }
     async hashByBcrypt(data: string) {
         return bcrypt.hash(data, 10);
+    }
+    async getUserEmailFromToken(token: string): Promise<string | null> {
+        try {
+            const decodedToken = this.jwtService.verify(token, {
+                secret: jwtConstants.secret,
+            });
+            if (decodedToken && decodedToken.id) {
+                
+                const userId = decodedToken.id;
+                console.log('User ID:', userId); // In ra userId
+                const user = await this.userAccountService.getProfile(userId);
+                if (user) {
+                    return user.email;
+                }
+            }
+        } catch (error) {
+            // Xử lý lỗi nếu có
+        }
+
+        return null;
     }
 }
