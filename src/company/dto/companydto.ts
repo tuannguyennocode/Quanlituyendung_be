@@ -13,6 +13,9 @@ export class CompanyDto {
     phoneNumber: string;
 
     @ApiProperty()
+    avatar_url: string;
+
+    @ApiProperty()
     email: string;
 
     @ApiProperty()

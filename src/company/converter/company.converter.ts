@@ -16,6 +16,7 @@ export class CompanyConverter {
         companyDto.web_url = company.web_url;
         companyDto.description = company.description;
         companyDto.jobPostings = company.jobPostings;
+        companyDto.avatar_url = company.avatar_url;
         return companyDto;
     }
 }
