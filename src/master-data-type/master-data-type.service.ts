@@ -18,14 +18,16 @@ export class MasterDataTypeService {
         private readonly masterDataModel: Model<MasterData>,
     ) {}
     async createMasterDataType(@Body() createMasterDataTypeForm: CreateMasterDataTypeForm): Promise<SuccessResponse> {
-        const { name, parentKind } = createMasterDataTypeForm;
+        const { name, masterData } = createMasterDataTypeForm;
         const existMasterDataType = await this.masterDataTypeModel.findOne({ name: name }).exec();
-        const existMasterData = await this.masterDataModel.findOne({ kind: parentKind }).exec();
-        if (existMasterDataType && parentKind == existMasterDataType.parentKind) {
+        const existMasterData = await this.masterDataModel.findOne({ _id: masterData }).exec();
+        if (existMasterDataType) {
             throw new ConflictException(errorMessages.masterDataType.masterDataTypeAlreadyExist);
         }
         if (existMasterData) {
-            await this.masterDataTypeModel.create(createMasterDataTypeForm);
+            const newMasterDataTypes = await this.masterDataTypeModel.create(createMasterDataTypeForm);
+            existMasterData.masterDataTypes.push(newMasterDataTypes);
+            await existMasterData.save();
             return setSuccessResponse('Tạo master data type thành công');
         } else {
             throw new ConflictException(errorMessages.masterData.masterDataNotFound);

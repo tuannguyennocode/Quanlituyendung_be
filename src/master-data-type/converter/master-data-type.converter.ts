@@ -8,7 +8,7 @@ export class MasterDataTypeConverter {
         const masterDataTypeDto = new MasterDataTypeDto();
         masterDataTypeDto._id = masterDataType._id;
         masterDataTypeDto.name = masterDataType.name;
-        masterDataTypeDto.parentKind = masterDataType.parentKind;
+        masterDataTypeDto.masterData = masterDataType.masterData;
         return masterDataTypeDto;
     }
 }

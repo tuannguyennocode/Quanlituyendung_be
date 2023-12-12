@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsNotEmpty } from "class-validator";
 import mongoose from "mongoose";
 
 export class UpdateMasterDataTypeForm {
@@ -6,7 +7,7 @@ export class UpdateMasterDataTypeForm {
     _id: mongoose.Types.ObjectId;
     @ApiProperty()
     name: string;
-
+      
     @ApiProperty()
-    parentKind: string;
+    masterData: mongoose.Types.ObjectId;
 }

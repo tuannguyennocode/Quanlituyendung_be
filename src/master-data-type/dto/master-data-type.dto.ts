@@ -7,7 +7,8 @@ export class MasterDataTypeDto {
 
     @ApiProperty()
     name: string;
-    
+
+      
     @ApiProperty()
-    parentKind: string;
+    masterData: mongoose.Types.ObjectId;
 }

@@ -10,8 +10,9 @@ export class MasterDataType extends CommonSchemaProps {
     _id: mongoose.Types.ObjectId;
     @Prop()
     name: string;
-    @Prop({ref: 'MasterData',})
-    parentKind: string;
+
+    @Prop({ type: mongoose.Types.ObjectId, ref: 'MasterData' })
+    masterData: mongoose.Types.ObjectId;
 }
 
 export const MasterDataTypeSchema = SchemaFactory.createForClass(MasterDataType);

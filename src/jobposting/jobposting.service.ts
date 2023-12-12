@@ -41,7 +41,7 @@ export class JobPostingService {
     }
     async getJobPostById(@Param('id') id: string): Promise<SuccessResponse> {
         // Kiểm tra xem jobpost đã tồn tại trong cơ sở dữ liệu chưa
-        const existingJobPost = await this.jobPostingModel.findById(id).exec();
+        const existingJobPost = await this.jobPostingModel.findById(id).populate('company', 'name avatar_url').exec();
         if (existingJobPost) {
             const jobPost = JobPostingConverter.toDto(existingJobPost);
             return setSuccessResponse('Lấy bài tuyển dụng thành công', jobPost);
