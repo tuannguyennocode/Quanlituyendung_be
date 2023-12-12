@@ -54,6 +54,7 @@ export class CompanyService {
             .find({ ...phoneCondition })
             .skip(startIndex)
             .limit(filter.perPage)
+            .select('_id name avatar_url review')
             .exec();
         const companyDtos: CompanyDto[] = existingCompanies.map((company) => CompanyConverter.toDto(company));
         return setSuccessResponse('Lấy danh sách công ty thành công', {

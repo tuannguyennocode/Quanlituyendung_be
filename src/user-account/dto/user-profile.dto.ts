@@ -11,4 +11,6 @@ export class UserProfileDto {
     email: string;
     @ApiProperty()
     profile: Object;
+    @ApiProperty()
+    name: Object;
 }

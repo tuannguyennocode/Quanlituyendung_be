@@ -30,6 +30,9 @@ export class CompanyDto {
     @ApiProperty()
     description: string;
 
+    @ApiProperty()
+    review: string;
+
     @ApiProperty({ type: [JobPostingDto] }) // Sử dụng "type" để chỉ định kiểu dữ liệu của mảng
     jobPostings: JobPostingDto[];
 }

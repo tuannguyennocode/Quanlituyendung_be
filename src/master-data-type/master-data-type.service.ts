@@ -34,7 +34,7 @@ export class MasterDataTypeService {
         }
     }
     async getMasterDataTypeById(@Param('id') id: string): Promise<SuccessResponse> {
-        const existMasterDataType = await this.masterDataTypeModel.findById(id).exec();
+        const existMasterDataType = await this.masterDataTypeModel.findById(id).populate('masterData', 'name').exec();
         if (existMasterDataType) {
             const masterDataTypeTypeDto = MasterDataTypeConverter.toDto(existMasterDataType);
             return setSuccessResponse('Lấy master data type thành công', masterDataTypeTypeDto);
@@ -42,7 +42,7 @@ export class MasterDataTypeService {
         throw new ConflictException(errorMessages.masterDataType.masterDataTypeNotFound);
     }
     async getAllMasterDataType(filter: CommonFilter): Promise<SuccessResponse> {
-        const listMasterDataType = await this.masterDataTypeModel.find().exec();
+        const listMasterDataType = await this.masterDataTypeModel.find().populate('masterData', 'name').exec();
         return setSuccessResponse('Lấy danh sách master data type thành công', listMasterDataType);
     }
     async updateMasterDataType(updateData: Partial<MasterDataType>): Promise<SuccessResponse> {

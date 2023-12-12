@@ -22,7 +22,7 @@ export class JobPostingService {
     ) {}
 
     async createJobPost(@Body() createJobPostingForm: CreateJobPostingForm, @Request() req): Promise<SuccessResponse> {
-        const { name } = createJobPostingForm;
+        const { name, skills, levels } = createJobPostingForm;
         // Kiểm tra xem jobpost đã tồn tại trong cơ sở dữ liệu chưa
         const existingJobPost = await this.jobPostingModel.findOne({ name: name }).exec();
         if (existingJobPost) {
@@ -48,11 +48,24 @@ export class JobPostingService {
         }
         throw new ConflictException(errorMessages.jobPosting.jobPostingNotFound);
     }
-    async getAllJobPost(filter: JobPostingFilter): Promise<SuccessResponse> {
+    async getAllJobPost(masterData: any, filter: JobPostingFilter): Promise<SuccessResponse> {
+        const skills = masterData?.skills?.split(',');
+        const levels = masterData?.levels?.split(',');
+        const job_types = masterData?.job_types?.split(',');
+        let query = {};
+        if (skills) {
+            query['skills.name'] = { $all: skills };
+        }
+        if (levels) {
+            query['levels.name'] = { $all: levels };
+        }
+        if (job_types) {
+            query['job_types.name'] = { $all: job_types };
+        }
         const startIndex = (filter.page - 1) * filter.perPage;
         const totalJobPosts = await this.jobPostingModel.countDocuments().exec();
         const existingJobPosts = await this.jobPostingModel
-            .find()
+            .find(query)
             .skip(startIndex)
             .limit(filter.perPage)
             .populate('company', 'name avatar_url')

@@ -32,6 +32,9 @@ export class Company extends CommonSchemaProps {
     @Prop()
     description: string;
 
+    @Prop()
+    review: string;
+
     @Prop({ ref: 'JobPosting' })
     jobPostings: JobPosting[];
 }

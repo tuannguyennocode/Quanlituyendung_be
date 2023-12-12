@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { ApiProperty } from '@nestjs/swagger';
 import mongoose from 'mongoose';
+import { MasterDataType } from 'src/master-data-type/master-data-type.schema';
 export class JobPostingDto {
     @ApiProperty()
     _id: mongoose.Types.ObjectId;
@@ -17,4 +18,12 @@ export class JobPostingDto {
 
     @ApiProperty()
     detail: object;
+    @ApiProperty()
+    skills: MasterDataType[];
+
+    @ApiProperty()
+    levels: MasterDataType[];
+    
+    @ApiProperty()
+    job_types: MasterDataType[];
 }

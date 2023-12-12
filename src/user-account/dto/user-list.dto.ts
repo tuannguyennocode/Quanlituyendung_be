@@ -17,4 +17,6 @@ export class UserListDto {
     state: string;
     @ApiProperty()
     status: string;
+    @ApiProperty()
+    name: string;
 }

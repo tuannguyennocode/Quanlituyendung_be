@@ -44,8 +44,9 @@ export class JobpostingController {
     })
     @Public()
     @Get()
-    getAllJobPost(@Query() filter: JobPostingFilter) {
-        return this.jobPostingService.getAllJobPost(filter);
+    getAllJobPost(@Query('skills') skills: string,@Query('job-types') job_types: string,@Query('levels') levels: string, @Query() filter: JobPostingFilter) {
+        const masterData = { skills, levels, job_types };
+        return this.jobPostingService.getAllJobPost(masterData, filter);
     }
 
     @ApiBearerAuth()

@@ -2,6 +2,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { CommonSchemaProps } from '../common/commonSchemaProps';
+import { JobPosting } from 'src/jobposting/jobposting.schema';
 
 export type MasterDataTypeDocument = HydratedDocument<MasterDataType>;
 
@@ -13,6 +14,9 @@ export class MasterDataType extends CommonSchemaProps {
 
     @Prop({ type: mongoose.Types.ObjectId, ref: 'MasterData' })
     masterData: mongoose.Types.ObjectId;
+
+    @Prop({ ref: 'JobPosting' })
+    jobPosting: JobPosting[];
 }
 
 export const MasterDataTypeSchema = SchemaFactory.createForClass(MasterDataType);

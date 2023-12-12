@@ -13,7 +13,9 @@ export class JobPostingConverter {
         jobPostingDto.startDate = jobPosting.startDate;
         jobPostingDto.endDate = jobPosting.endDate;
         jobPostingDto.company = jobPosting.company;
-
+        jobPostingDto.skills = jobPosting.skills;
+        jobPostingDto.levels = jobPosting.levels;
+        jobPostingDto.job_types = jobPosting.job_types;
         return jobPostingDto;
     }
 }

@@ -3,6 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { CommonSchemaProps } from '../common/commonSchemaProps';
 import { Company } from 'src/company/company.schema';
+import { MasterDataType } from 'src/master-data-type/master-data-type.schema';
 
 export type JobPostingDocument = HydratedDocument<JobPosting>;
 
@@ -24,6 +25,12 @@ export class JobPosting extends CommonSchemaProps {
     // Thêm trường detail theo cấu trúc bạn đã mô tả
     @Prop({ type: JSON })
     detail: object;
+    @Prop({ ref: 'MasterDataType' })
+    skills: MasterDataType[];
+    @Prop({ ref: 'MasterDataType' })
+    levels: MasterDataType[];
+    @Prop({ ref: 'MasterDataType' })
+    job_types: MasterDataType[];
 }
 
 export const JobPostingSchema = SchemaFactory.createForClass(JobPosting);
