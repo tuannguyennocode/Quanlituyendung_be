@@ -28,7 +28,7 @@ export class JobPostingService {
         if (existingJobPost) {
             throw new ConflictException(errorMessages.jobPosting.jobPostingAlreadyExist);
         }
-        const existingCompany = await this.companyModel.findById(createJobPostingForm.companyId).exec();
+        const existingCompany = await this.companyModel.findById(createJobPostingForm.company).exec();
         if (!existingCompany) {
             throw new NotFoundException(errorMessages.company.companyNotFound);
         }
@@ -51,7 +51,12 @@ export class JobPostingService {
     async getAllJobPost(filter: JobPostingFilter): Promise<SuccessResponse> {
         const startIndex = (filter.page - 1) * filter.perPage;
         const totalJobPosts = await this.jobPostingModel.countDocuments().exec();
-        const existingJobPosts = await this.jobPostingModel.find().skip(startIndex).limit(filter.perPage).exec();
+        const existingJobPosts = await this.jobPostingModel
+            .find()
+            .skip(startIndex)
+            .limit(filter.perPage)
+            .populate('company', 'name avatar_url')
+            .exec();
         const jobPostingDtos: JobPostingDto[] = existingJobPosts.map((jobPosting) =>
             JobPostingConverter.toDto(jobPosting),
         );

@@ -2,6 +2,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { CommonSchemaProps } from '../common/commonSchemaProps';
+import { Company } from 'src/company/company.schema';
 
 export type JobPostingDocument = HydratedDocument<JobPosting>;
 
@@ -9,7 +10,7 @@ export type JobPostingDocument = HydratedDocument<JobPosting>;
 export class JobPosting extends CommonSchemaProps {
     _id: mongoose.Types.ObjectId;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Company' })
+    @Prop({ type: mongoose.Types.ObjectId, ref: 'Company' })
     company: mongoose.Types.ObjectId;
 
     @Prop()

@@ -10,8 +10,9 @@ export class JobPostingConverter {
         jobPostingDto._id = jobPosting._id;
         jobPostingDto.name = jobPosting.name;
         jobPostingDto.detail = jobPosting.detail;
-        jobPosting.startDate = jobPosting.startDate;
-        jobPosting.endDate = jobPosting.endDate;
+        jobPostingDto.startDate = jobPosting.startDate;
+        jobPostingDto.endDate = jobPosting.endDate;
+        jobPostingDto.company = jobPosting.company;
 
         return jobPostingDto;
     }

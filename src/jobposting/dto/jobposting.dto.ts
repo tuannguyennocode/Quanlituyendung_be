@@ -6,6 +6,8 @@ export class JobPostingDto {
     _id: mongoose.Types.ObjectId;
     @ApiProperty()
     name: string;
+    @ApiProperty()
+    company: mongoose.Types.ObjectId;
 
     @ApiProperty()
     startDate: string;

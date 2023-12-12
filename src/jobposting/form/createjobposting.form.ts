@@ -6,7 +6,7 @@ import { IsDateFormat } from '../../validator/is-date-format.validator';
 export class CreateJobPostingForm {
     @ApiProperty({ type: String })
     @IsNotEmpty({ message: 'companyId can not empty' })
-    companyId: string;
+    company: string;
 
     @ApiProperty()
     @IsNotEmpty({ message: 'name can not empty' })
