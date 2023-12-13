@@ -20,7 +20,7 @@ export class UserAccountService {
     async getProfile(id: string): Promise<UserAccount> {
         const userAccount = await this.userAccountModel
             .findOne({ _id: id })
-            .select('-password -status -role -hashRt')
+            .select('-password -status -hashRt')
             .exec();
         return userAccount;
     }
