@@ -29,14 +29,14 @@ export class AuthService {
         if(user==null){
             throw new ConflictException(errorMessages.auth.wrongCredentials);
         }
-        const { role, state, status } = user;
+        const { role, state } = user;
         if (await bcrypt.compare(password, user?.password)) {
             const tokens = await this.getTokens(user);
 
             const rtHash = await this.hashByBcrypt(tokens.refresh_token);
 
             await this.userAccountService.updateOne(user._id.toString(), { hashRt: rtHash });
-            const response = { ...tokens, role, state, status };
+            const response = { ...tokens, role, state };
             return setSuccessResponse('Đăng nhập thành công', response);
         } else {
             throw new ConflictException(errorMessages.auth.wrongCredentials);

@@ -16,6 +16,7 @@ export class JobPostingConverter {
         jobPostingDto.skills = jobPosting.skills;
         jobPostingDto.levels = jobPosting.levels;
         jobPostingDto.job_types = jobPosting.job_types;
+        jobPostingDto.recruitment = jobPosting.recruitment;
         return jobPostingDto;
     }
 }
