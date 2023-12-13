@@ -4,6 +4,7 @@ import mongoose, { HydratedDocument } from 'mongoose';
 import { CommonSchemaProps } from '../common/commonSchemaProps';
 import { Company } from 'src/company/company.schema';
 import { MasterDataType } from 'src/master-data-type/master-data-type.schema';
+import { Recruitment } from 'src/recruitment/recruitment.schema';
 
 export type JobPostingDocument = HydratedDocument<JobPosting>;
 
@@ -31,6 +32,8 @@ export class JobPosting extends CommonSchemaProps {
     levels: MasterDataType[];
     @Prop({ ref: 'MasterDataType' })
     job_types: MasterDataType[];
+    @Prop({ ref: 'Recruitment' })
+    recruitment: Recruitment[];
 }
 
 export const JobPostingSchema = SchemaFactory.createForClass(JobPosting);

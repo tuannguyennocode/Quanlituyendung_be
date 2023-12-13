@@ -5,6 +5,7 @@ import { Role } from './enum/role.enum';
 import { State } from './enum/state.enum';
 import { Status } from './enum/status.enum';
 import { CommonSchemaProps } from '../common/commonSchemaProps';
+import { Recruitment } from 'src/recruitment/recruitment.schema';
 
 export type UserDocument = HydratedDocument<UserAccount>;
 
@@ -27,6 +28,8 @@ export class UserAccount extends CommonSchemaProps {
     hashRt: string;
     @Prop({ type: JSON })
     profile: Object;
+    @Prop({ ref: 'Recruitment' })
+    recruitment: Recruitment[];
 }
 
 export const UserAccountSchema = SchemaFactory.createForClass(UserAccount);
