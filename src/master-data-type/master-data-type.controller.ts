@@ -42,8 +42,8 @@ export class MasterDataTypeController {
         isArray: true,
         type: MasterDataTypeDto,
     })
-    getAllMasterDataType(@Query() filter: CommonFilter) {
-        return this.masterDataService.getAllMasterDataType(filter);
+    getAllMasterDataType(@Query('masterDataId') masterDataId: string, @Query() filter: CommonFilter) {
+        return this.masterDataService.getAllMasterDataType(masterDataId, filter);
     }
 
     @ApiBearerAuth()
