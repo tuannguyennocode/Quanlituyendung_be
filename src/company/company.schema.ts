@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { CommonSchemaProps } from '../common/commonSchemaProps';
 import { JobPosting } from '../jobposting/jobposting.schema';
+import { Recruitment } from 'src/recruitment/recruitment.schema';
 
 export type CompanyDocument = HydratedDocument<Company>;
 
@@ -37,6 +38,8 @@ export class Company extends CommonSchemaProps {
 
     @Prop({ ref: 'JobPosting' })
     jobPostings: JobPosting[];
+    @Prop({ ref: 'Recruitment' })
+    recruitment: Recruitment[];
 }
 
 export const CompanySchema = SchemaFactory.createForClass(Company);

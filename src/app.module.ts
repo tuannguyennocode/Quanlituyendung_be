@@ -11,6 +11,7 @@ import { CompanyModule } from './company/company.module';
 import { AuditableMiddleware } from './auditable/auditable.middleware';
 import { MasterDataModule } from './master-data/master-data.module';
 import { MasterDataTypeModule } from './master-data-type/master-data-type.module';
+import { RecruitmentModule } from './recruitment/recruitment.module';
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -23,7 +24,8 @@ import { MasterDataTypeModule } from './master-data-type/master-data-type.module
         JobPostingModule,
         CompanyModule,
         MasterDataModule,
-        MasterDataTypeModule
+        MasterDataTypeModule,
+        RecruitmentModule
     ],
     providers: [
         {
