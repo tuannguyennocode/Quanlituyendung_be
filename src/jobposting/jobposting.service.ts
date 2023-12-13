@@ -52,6 +52,7 @@ export class JobPostingService {
         const skills = masterData?.skills?.split(',');
         const levels = masterData?.levels?.split(',');
         const job_types = masterData?.job_types?.split(',');
+        const name = masterData?.name;
         let query = {};
         if (skills) {
             query['skills.name'] = { $all: skills };
@@ -61,6 +62,9 @@ export class JobPostingService {
         }
         if (job_types) {
             query['job_types.name'] = { $all: job_types };
+        }
+        if (name) {
+            query['name'] = { $regex: new RegExp(name, 'i') };
         }
         const startIndex = (filter.page - 1) * filter.perPage;
         const totalJobPosts = await this.jobPostingModel.countDocuments().exec();
