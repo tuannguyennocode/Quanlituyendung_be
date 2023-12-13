@@ -10,11 +10,14 @@ import { SuccessResponse, setSuccessResponse } from '../response/success';
 import { Model } from 'mongoose';
 import { CompanyConverter } from './converter/company.converter';
 import { CommonFilter } from '../common/commonFilter';
+import { JobPosting } from 'src/jobposting/jobposting.schema';
 @Injectable()
 export class CompanyService {
     constructor(
         @InjectModel('Company')
         private readonly companyModel: Model<Company>,
+        @InjectModel('JobPosting')
+        private readonly jobPostingModel: Model<JobPosting>,
     ) {}
 
     async createCompany(@Body() createCompanyForm: CreateCompanyForm): Promise<SuccessResponse> {
@@ -68,6 +71,7 @@ export class CompanyService {
     async deleteCompany(@Param('id') id: string): Promise<SuccessResponse> {
         const existingCompany = await this.companyModel.findById(id).exec();
         if (existingCompany) {
+            await this.jobPostingModel.deleteMany({ company: id }).exec();
             await existingCompany.deleteOne();
             return setSuccessResponse('Xoá công ty thành công');
         }

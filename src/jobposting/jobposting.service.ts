@@ -85,7 +85,15 @@ export class JobPostingService {
         // Kiểm tra xem jobpost đã tồn tại trong cơ sở dữ liệu chưa
         const existingJobPost = await this.jobPostingModel.findById(id).exec();
         if (existingJobPost) {
+            const companyId = existingJobPost.company;
             await existingJobPost.deleteOne();
+            const company = await this.companyModel.findById(companyId).exec();
+            const jobPostings = company.jobPostings;
+            console.log(jobPostings);
+            const updatedJobPostings = jobPostings.filter((job) => job._id.toString() !== id);
+            company.jobPostings = updatedJobPostings;
+
+            await company.save();
             return setSuccessResponse('Xoá bài tuyển dụng thành công');
         }
         throw new ConflictException(errorMessages.jobPosting.jobPostingNotFound);
