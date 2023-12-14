@@ -1,8 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
 import mongoose from 'mongoose';
 
-export class CreateRecruitmentForm {
+export class RecruitmentDto {
+    @ApiProperty()
+    _id: mongoose.Types.ObjectId;
+
     @ApiProperty()
     name: string;
 

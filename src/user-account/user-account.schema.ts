@@ -3,7 +3,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { Role } from './enum/role.enum';
 import { State } from './enum/state.enum';
-import { Status } from './enum/status.enum';
 import { CommonSchemaProps } from '../common/commonSchemaProps';
 import { Recruitment } from 'src/recruitment/recruitment.schema';
 
@@ -22,8 +21,7 @@ export class UserAccount extends CommonSchemaProps {
     role: Role;
     @Prop({ enum: State, default: State.UNAUTHENTICATED })
     state: State;
-    @Prop({ enum: Status, default: Status.INPROCESS })
-    status: Status;
+
     @Prop()
     hashRt: string;
     @Prop({ type: JSON })

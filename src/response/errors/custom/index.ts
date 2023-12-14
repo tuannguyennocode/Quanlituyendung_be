@@ -77,6 +77,16 @@ export const errorMessages = {
             code: '70203',
         },
     },
+    recruitment: {
+        recruitmentAlreadyExist: {
+            message: 'recruitment đã tồn tại',
+            code: '70204',
+        },
+        recruitmentNotFound: {
+            message: 'Không tìm thấy recruitment',
+            code: '70205',
+        },
+    },
     user: {
         notFound: {
             message: 'Không tìm thấy người dùng',

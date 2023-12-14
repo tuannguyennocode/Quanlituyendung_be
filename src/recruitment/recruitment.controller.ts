@@ -1,7 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Put } from '@nestjs/common';
 import { CreateRecruitmentForm } from './form/create-recruitment.form';
 import { RecruitmentService } from './recruitment.service';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UpdateRecruitmentForm } from './form/update-recruitment.form';
 
 @ApiTags('Recruitment')
 @Controller('recruitment')
@@ -14,7 +15,12 @@ export class RecruitmentController {
         description: 'OK',
     })
     createRecruitment(@Body() createRecruitmentForm: CreateRecruitmentForm) {
-        console.log(createRecruitmentForm);
         return this.recruitmentService.createRecruitment(createRecruitmentForm);
+    }
+    
+    @ApiBearerAuth()
+    @Put()
+    updateJobPost(@Body() updateRecruitmentForm: UpdateRecruitmentForm) {
+        return this.recruitmentService.updateRecruitment(updateRecruitmentForm);
     }
 }
