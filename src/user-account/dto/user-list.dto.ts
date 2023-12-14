@@ -6,6 +6,8 @@ export class UserListDto {
     @ApiProperty()
     _id: mongoose.Types.ObjectId;
     @ApiProperty()
+    companyId: mongoose.Types.ObjectId;
+    @ApiProperty()
     createdAt: Date;
     @ApiProperty()
     email: string;

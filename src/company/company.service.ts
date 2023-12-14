@@ -11,6 +11,8 @@ import { Model } from 'mongoose';
 import { CompanyConverter } from './converter/company.converter';
 import { CommonFilter } from '../common/commonFilter';
 import { JobPosting } from 'src/jobposting/jobposting.schema';
+import { UserAccount } from 'src/user-account/user-account.schema';
+import { Role } from 'src/user-account/enum/role.enum';
 @Injectable()
 export class CompanyService {
     constructor(
@@ -18,10 +20,13 @@ export class CompanyService {
         private readonly companyModel: Model<Company>,
         @InjectModel('JobPosting')
         private readonly jobPostingModel: Model<JobPosting>,
+        @InjectModel('UserAccount')
+        private readonly userAccountModel: Model<UserAccount>,
     ) {}
 
-    async createCompany(@Body() createCompanyForm: CreateCompanyForm): Promise<SuccessResponse> {
+    async createCompany(@Body() createCompanyForm: CreateCompanyForm, req: any): Promise<SuccessResponse> {
         const { name, phoneNumber, email } = createCompanyForm;
+
         const existCompany = await this.companyModel.findOne({ name: name }).exec();
         if (existCompany) {
             throw new ConflictException(errorMessages.company.companyNameAlreadyExist);
@@ -34,8 +39,19 @@ export class CompanyService {
         if (existingCompanyByEmail) {
             throw new ConflictException(errorMessages.company.companyEmailAlreadyExist);
         }
-        const newCompany = await this.companyModel.create(createCompanyForm);
-        await newCompany.save();
+        const userId = req?.user?.id;
+        const user = await this.userAccountModel.findById(userId).exec();
+        if(user?.role == Role.CANDIDATE){
+            throw new ConflictException(errorMessages.user.wrongRole);
+        }
+        else if (user?.companyId) {
+            throw new ConflictException(errorMessages.user.existCompany);
+        } else {
+            const newCompany = await this.companyModel.create(createCompanyForm);
+            await newCompany.save();
+            user.companyId = newCompany._id;
+            await user.save();
+        }
         return setSuccessResponse('Tạo công ty thành công');
     }
 

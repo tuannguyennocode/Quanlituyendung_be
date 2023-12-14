@@ -1,16 +1,15 @@
 import { Body, ConflictException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Recruitment } from './recruitment.schema';
 import { Model } from 'mongoose';
-import { SuccessResponse, setSuccessResponse } from 'src/response/success';
-import { errorMessages } from 'src/response/errors/custom';
-import { CreateRecruitmentForm } from './form/create-recruitment.form';
 import { Company } from 'src/company/company.schema';
 import { JobPosting } from 'src/jobposting/jobposting.schema';
+import { errorMessages } from 'src/response/errors/custom';
+import { SuccessResponse, setSuccessResponse } from 'src/response/success';
 import { UserAccount } from 'src/user-account/user-account.schema';
-import { State } from 'src/user-account/enum/state.enum';
+import { sendEmailAccept, sendEmailRefuse } from 'src/utils/sendEmail';
 import { StateRecruitment } from './enum/state.enum';
-import { sendEmail, sendEmailAccept, sendEmailRefuse } from 'src/utils/sendEmail';
+import { CreateRecruitmentForm } from './form/create-recruitment.form';
+import { Recruitment } from './recruitment.schema';
 
 @Injectable()
 export class RecruitmentService {
@@ -57,7 +56,22 @@ export class RecruitmentService {
         } else if (updateData?.state == StateRecruitment.REFUSE) {
             sendEmailRefuse(existUser.email);
         }
-        Object.assign(existingRecruitment, updateData);
+        const newRecruitment = Object.assign(existingRecruitment, updateData);
+        const existJobPosting = await this.jobPostingModel.findById(existingRecruitment.jobPostingId).exec();
+        const index1 = existJobPosting.recruitment.findIndex(
+            (recruitment) => existingRecruitment._id.toString() == recruitment._id.toString(),
+        );
+        if (index1 >= 0) {
+            existJobPosting.recruitment[index1] = newRecruitment;
+            await existJobPosting.save();
+        }
+        const index2 = existUser.recruitment.findIndex(
+            (recruitment) => existingRecruitment._id.toString() == recruitment._id.toString(),
+        );
+        if (index2 >= 0) {
+            existUser.recruitment[index2] = newRecruitment;
+            await existUser.save();
+        }
         await existingRecruitment.save();
         return setSuccessResponse('Cập nhật đơn ứng tuyển thành công');
     }

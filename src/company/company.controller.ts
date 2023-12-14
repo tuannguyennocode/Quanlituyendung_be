@@ -18,8 +18,8 @@ export class CompanyController {
         description: 'OK',
     })
     @Post()
-    createCompany(@Body() createCompanyForm: CreateCompanyForm) {
-        return this.companyService.createCompany(createCompanyForm);
+    createCompany(@Body() createCompanyForm: CreateCompanyForm, @Request() req) {
+        return this.companyService.createCompany(createCompanyForm, req);
     }
     @ApiBearerAuth()
     @Public()
