@@ -8,6 +8,9 @@ import { CreateRecruitmentForm } from './form/create-recruitment.form';
 import { Company } from 'src/company/company.schema';
 import { JobPosting } from 'src/jobposting/jobposting.schema';
 import { UserAccount } from 'src/user-account/user-account.schema';
+import { State } from 'src/user-account/enum/state.enum';
+import { StateRecruitment } from './enum/state.enum';
+import { sendEmail, sendEmailAccept, sendEmailRefuse } from 'src/utils/sendEmail';
 
 @Injectable()
 export class RecruitmentService {
@@ -22,27 +25,23 @@ export class RecruitmentService {
         private readonly userAccountModel: Model<UserAccount>,
     ) {}
     async createRecruitment(@Body() createRecruitmentForm: CreateRecruitmentForm): Promise<SuccessResponse> {
-        const { companyId, userId, jobPostingId } = createRecruitmentForm;
-        const existingDocument = await this.recruitmentModel.findOne({ companyId, jobPostingId, userId }).exec();
-        const existCompany = await this.companyModel.findOne({ _id: companyId }).exec();
+        const { userId, jobPostingId } = createRecruitmentForm;
+        const existingDocument = await this.recruitmentModel.findOne({ jobPostingId, userId }).exec();
         const existJobPosting = await this.jobPostingModel.findOne({ _id: jobPostingId }).exec();
         const existUser = await this.userAccountModel.findOne({ _id: userId }).exec();
 
-        if(existingDocument){
+        if (existingDocument) {
             throw new ConflictException(errorMessages.recruitment.recruitmentAlreadyExist);
         }
-        if (!existCompany) {
-            throw new ConflictException(errorMessages.company.companyNotFound);
-        } else if (!existJobPosting) {
+
+        if (!existJobPosting) {
             throw new ConflictException(errorMessages.jobPosting.jobPostingNotFound);
         } else if (!existUser) {
             throw new ConflictException(errorMessages.user.notFound);
         }
         const newRecruitment = await this.recruitmentModel.create(createRecruitmentForm);
-        existCompany.recruitment.push(newRecruitment);
         existJobPosting.recruitment.push(newRecruitment);
         existUser.recruitment.push(newRecruitment);
-        await existCompany.save();
         await existJobPosting.save();
         await existUser.save();
         return setSuccessResponse('Tạo đơn ứng tuyển thành công');
@@ -52,7 +51,12 @@ export class RecruitmentService {
         if (!existingRecruitment) {
             throw new ConflictException(errorMessages.recruitment.recruitmentNotFound);
         }
-    
+        const existUser = await this.userAccountModel.findById(existingRecruitment.userId).exec();
+        if (updateData?.state == StateRecruitment.ACCEPT) {
+            sendEmailAccept(existUser.email);
+        } else if (updateData?.state == StateRecruitment.REFUSE) {
+            sendEmailRefuse(existUser.email);
+        }
         Object.assign(existingRecruitment, updateData);
         await existingRecruitment.save();
         return setSuccessResponse('Cập nhật đơn ứng tuyển thành công');

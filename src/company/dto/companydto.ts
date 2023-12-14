@@ -37,6 +37,4 @@ export class CompanyDto {
     @ApiProperty({ type: [JobPostingDto] }) // Sử dụng "type" để chỉ định kiểu dữ liệu của mảng
     jobPostings: JobPostingDto[];
 
-    @ApiProperty({ type: [RecruitmentDto] }) // Sử dụng "type" để chỉ định kiểu dữ liệu của mảng
-    recruitment: RecruitmentDto[];
 }

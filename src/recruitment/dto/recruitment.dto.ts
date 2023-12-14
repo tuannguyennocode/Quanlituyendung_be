@@ -9,9 +9,6 @@ export class RecruitmentDto {
     name: string;
 
     @ApiProperty()
-    companyId: mongoose.Types.ObjectId;
-
-    @ApiProperty()
     jobPostingId: mongoose.Types.ObjectId;
 
     @ApiProperty()

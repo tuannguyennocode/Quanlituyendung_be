@@ -38,8 +38,7 @@ export class Company extends CommonSchemaProps {
 
     @Prop({ ref: 'JobPosting' })
     jobPostings: JobPosting[];
-    @Prop({ ref: 'Recruitment' })
-    recruitment: Recruitment[];
+
 }
 
 export const CompanySchema = SchemaFactory.createForClass(Company);

@@ -11,9 +11,6 @@ export class UpdateRecruitmentForm {
     name: string;
 
     @ApiProperty()
-    companyId: mongoose.Types.ObjectId;
-
-    @ApiProperty()
     jobPostingId: mongoose.Types.ObjectId;
 
     @ApiProperty()

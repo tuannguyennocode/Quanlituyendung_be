@@ -10,8 +10,6 @@ export class Recruitment extends CommonSchemaProps {
     _id: mongoose.Types.ObjectId;
     @Prop()
     name: string;
-    @Prop({ type: mongoose.Types.ObjectId, ref: 'Company' })
-    companyId: mongoose.Types.ObjectId;
 
     @Prop({ type: mongoose.Types.ObjectId, ref: 'JobPosting' })
     jobPostingId: mongoose.Types.ObjectId;
