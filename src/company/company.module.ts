@@ -5,10 +5,11 @@ import { CompanyService } from './company.service';
 import { CompanyController } from './company.controller';
 import { CompanyConverter } from './converter/company.converter';
 import { JobPostingModule } from 'src/jobposting/jobposting.module';
+import { UserAccountModule } from 'src/user-account/user-account.module';
 
 const COMPANY_MODEL = MongooseModule.forFeature([{ name: 'Company', schema: CompanySchema }]);
 @Module({
-    imports: [COMPANY_MODEL, forwardRef(() => JobPostingModule)],
+    imports: [COMPANY_MODEL, forwardRef(() => JobPostingModule), UserAccountModule],
     providers: [CompanyService, CompanyConverter],
     controllers: [CompanyController],
     exports: [CompanyService, COMPANY_MODEL, CompanyConverter],

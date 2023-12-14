@@ -12,6 +12,7 @@ import { SuccessResponse, setSuccessResponse } from '../response/success';
 import { UpdateJobPostingForm } from './form/updatejobposting.form';
 import { JobPostingConverter } from './converter/jobposting.converter';
 import { JobPostingFilter } from './filter/jobposting.filter';
+import { Recruitment } from 'src/recruitment/recruitment.schema';
 @Injectable()
 export class JobPostingService {
     constructor(
@@ -19,6 +20,8 @@ export class JobPostingService {
         private readonly jobPostingModel: Model<JobPosting>,
         @InjectModel('Company')
         private readonly companyModel: Model<Company>,
+        @InjectModel('Recruitment')
+        private readonly recruitmentModel: Model<Recruitment>,
     ) {}
 
     async createJobPost(@Body() createJobPostingForm: CreateJobPostingForm, @Request() req): Promise<SuccessResponse> {
@@ -89,11 +92,11 @@ export class JobPostingService {
         // Kiểm tra xem jobpost đã tồn tại trong cơ sở dữ liệu chưa
         const existingJobPost = await this.jobPostingModel.findById(id).exec();
         if (existingJobPost) {
+            await this.recruitmentModel.deleteMany({ jobPostingId: id }).exec();
             const companyId = existingJobPost.company;
             await existingJobPost.deleteOne();
             const company = await this.companyModel.findById(companyId).exec();
             const jobPostings = company.jobPostings;
-            console.log(jobPostings);
             const updatedJobPostings = jobPostings.filter((job) => job._id.toString() !== id);
             company.jobPostings = updatedJobPostings;
 
@@ -108,8 +111,8 @@ export class JobPostingService {
             throw new ConflictException(errorMessages.jobPosting.jobPostingNotFound);
         }
         if (updateData.name != existingJobPost.name) {
-            const exsitingCompany = await this.companyModel.findOne({ name: updateData.name }).exec();
-            if (exsitingCompany) {
+            const existingCompany = await this.companyModel.findOne({ name: updateData.name }).exec();
+            if (existingCompany) {
                 throw new ConflictException(errorMessages.jobPosting.jobPostingAlreadyExist);
             }
         }

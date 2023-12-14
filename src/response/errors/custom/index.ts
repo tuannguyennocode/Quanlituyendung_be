@@ -92,6 +92,14 @@ export const errorMessages = {
             message: 'Không tìm thấy người dùng',
             code: '60101',
         },
+        existCompany: {
+            message: 'Mỗi HR chỉ được tạo 1 company',
+            code: '60102',
+        },
+        wrongRole: {
+            message: 'Ứng viên không có quyền tạo company',
+            code: '60102',
+        },
         global: {
             internalError: {
                 message: 'something went wrong',

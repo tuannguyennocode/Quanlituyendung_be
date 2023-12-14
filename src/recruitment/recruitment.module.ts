@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { RecruitmentService } from './recruitment.service';
 import { RecruitmentController } from './recruitment.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -9,7 +9,7 @@ import { CompanyModule } from 'src/company/company.module';
 
 const RECRUITMENT_MODEL = MongooseModule.forFeature([{ name: 'Recruitment', schema: RecruitmentSchema }]);
 @Module({
-    imports: [RECRUITMENT_MODEL, CompanyModule, UserAccountModule, JobPostingModule],
+    imports: [RECRUITMENT_MODEL, CompanyModule, UserAccountModule, forwardRef(() => JobPostingModule)],
     providers: [RecruitmentService],
     controllers: [RecruitmentController],
     exports: [RecruitmentService, RECRUITMENT_MODEL]

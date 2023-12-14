@@ -12,6 +12,8 @@ export type UserDocument = HydratedDocument<UserAccount>;
 export class UserAccount extends CommonSchemaProps {
     _id: mongoose.Types.ObjectId;
     @Prop()
+    companyId: mongoose.Types.ObjectId;
+    @Prop()
     name: string;
     @Prop()
     password: string;
