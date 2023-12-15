@@ -2,7 +2,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import { JobPostingDto } from 'src/jobposting/dto/jobposting.dto';
-import { RecruitmentDto } from 'src/recruitment/dto/recruitment.dto';
 export class CompanyDto {
     @ApiProperty()
     _id: mongoose.Types.ObjectId;
