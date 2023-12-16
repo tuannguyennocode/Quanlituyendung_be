@@ -72,10 +72,10 @@ export class CompanyService {
             .find({ ...phoneCondition })
             .skip(startIndex)
             .limit(filter.perPage)
-            .select('_id name avatar_url review')
+            .select('_id name avatar_url review createdAt')
             .exec();
         const companyDtos: CompanyDto[] = existingCompanies.map((company) => CompanyConverter.toDto(company));
-        return setSuccessResponse('Lấy danh sách công ty thành công', {
+        return setSuccessResponse('Lấy danh sách cô ty thành công', {
             companyDtos: companyDtos,
             page: filter.page,
             perPage: filter.perPage,
