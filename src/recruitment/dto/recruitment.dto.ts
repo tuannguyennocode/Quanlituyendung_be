@@ -19,4 +19,6 @@ export class RecruitmentDto {
 
     @ApiProperty()
     letter: string;
+    @ApiProperty()
+    createdAt: Date;
 }

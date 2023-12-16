@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get, Post, Put, Request, Response } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Request, Response } from '@nestjs/common';
 import { UserAccountService } from './user-account.service';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { setSuccessResponse } from '../response/success';
@@ -26,6 +26,17 @@ export class UserAccountController {
     @Get('profile')
     async getProfile(@Request() req: any) {
         const userAccount = await this.userAccountService.getProfile(req.user.id);
+        return setSuccessResponse('Lấy tài khoản user thành công', userAccount);
+    }
+    @ApiBearerAuth()
+    @ApiResponse({
+        status: 200,
+        description: 'OK',
+        type: UserProfileDto,
+    })
+    @Get('profile-by-id/:id')
+    async getProfileById(@Param('id') id: string) {
+        const userAccount = await this.userAccountService.getProfile(id);
         return setSuccessResponse('Lấy tài khoản user thành công', userAccount);
     }
     @ApiBearerAuth()
