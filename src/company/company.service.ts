@@ -41,18 +41,17 @@ export class CompanyService {
         }
         const userId = req?.user?.id;
         const user = await this.userAccountModel.findById(userId).exec();
-        if(user?.role == Role.CANDIDATE){
+        if (user?.role == Role.CANDIDATE) {
             throw new ConflictException(errorMessages.user.wrongRole);
-        }
-        else if (user?.companyId) {
+        } else if (user?.companyId) {
             throw new ConflictException(errorMessages.user.existCompany);
         } else {
             const newCompany = await this.companyModel.create(createCompanyForm);
             await newCompany.save();
             user.companyId = newCompany._id;
             await user.save();
+            return setSuccessResponse('Tạo công ty thành công', { _id: newCompany._id });
         }
-        return setSuccessResponse('Tạo công ty thành công');
     }
 
     async getCompanyById(@Param('id') id: string): Promise<SuccessResponse> {
