@@ -51,11 +51,11 @@ export class JobPostingService {
         }
         throw new ConflictException(errorMessages.jobPosting.jobPostingNotFound);
     }
-    async getAllJobPost(masterData: any, filter: JobPostingFilter): Promise<SuccessResponse> {
-        const skills = masterData?.skills?.split(',');
-        const levels = masterData?.levels?.split(',');
-        const job_types = masterData?.job_types?.split(',');
-        const name = masterData?.name;
+    async getAllJobPost(filter: JobPostingFilter): Promise<SuccessResponse> {
+        const skills = filter?.skills?.split(',');
+        const levels = filter?.levels?.split(',');
+        const job_types = filter?.jobTypes?.split(',');
+        const name = filter?.name;
         let query = {};
         if (skills) {
             query['skills.name'] = { $all: skills };
