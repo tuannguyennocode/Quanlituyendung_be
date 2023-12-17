@@ -74,6 +74,7 @@ export class JobPostingService {
         const existingJobPosts = await this.jobPostingModel
             .find(query)
             .skip(startIndex)
+            .sort({ createdAt: -1 })
             .limit(filter.perPage)
             .populate('company', 'name avatar_url')
             .exec();
