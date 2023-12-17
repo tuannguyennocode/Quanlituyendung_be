@@ -52,23 +52,25 @@ export class JobPostingService {
         throw new ConflictException(errorMessages.jobPosting.jobPostingNotFound);
     }
     async getAllJobPost(filter: JobPostingFilter): Promise<SuccessResponse> {
-        const skills = filter?.skills?.split(',');
-        const levels = filter?.levels?.split(',');
-        const job_types = filter?.jobTypes?.split(',');
+        const skills = filter?.skills?.split(',').filter(Boolean);
+        const levels = filter?.levels?.split(',').filter(Boolean);
+        const job_types = filter?.jobTypes?.split(',').filter(Boolean);
         const name = filter?.name;
         let query = {};
-        if (skills) {
+
+        if (skills && skills.length > 0) {
             query['skills.name'] = { $all: skills };
         }
-        if (levels) {
+        if (levels && levels.length > 0) {
             query['levels.name'] = { $all: levels };
         }
-        if (job_types) {
+        if (job_types && job_types.length > 0) {
             query['job_types.name'] = { $all: job_types };
         }
         if (name) {
             query['name'] = { $regex: new RegExp(name, 'i') };
         }
+
         const startIndex = (filter.page - 1) * filter.perPage;
         const totalJobPosts = await this.jobPostingModel.countDocuments().exec();
         const existingJobPosts = await this.jobPostingModel
@@ -78,9 +80,11 @@ export class JobPostingService {
             .limit(filter.perPage)
             .populate('company', 'name avatar_url')
             .exec();
+
         const jobPostingDtos: JobPostingDto[] = existingJobPosts.map((jobPosting) =>
             JobPostingConverter.toDto(jobPosting),
         );
+
         return setSuccessResponse('Lấy danh sách tuyển dụng thành công', {
             jobPostings: jobPostingDtos,
             page: filter.page,
