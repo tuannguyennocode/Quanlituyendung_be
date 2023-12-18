@@ -116,7 +116,15 @@ export class JobPostingService {
                 throw new ConflictException(errorMessages.jobPosting.jobPostingAlreadyExist);
             }
         }
-        Object.assign(existingJobPost, updateData);
+        const newJobPosting = Object.assign(existingJobPost, updateData);
+        const existingCompany = await this.companyModel.findById(existingJobPost.company).exec();
+        const index1 = existingCompany?.jobPostings?.findIndex(
+            (jobPosting) => existingJobPost._id.toString() == jobPosting._id.toString(),
+        );
+        if (index1 >= 0) {
+            existingCompany.jobPostings[index1] = newJobPosting;
+            await existingCompany.save();
+        }
         await existingJobPost.save();
         return setSuccessResponse('Cập nhật bài tuyển dụng thành công');
     }
