@@ -51,35 +51,40 @@ export class JobPostingService {
         }
         throw new ConflictException(errorMessages.jobPosting.jobPostingNotFound);
     }
-    async getAllJobPost(masterData: any, filter: JobPostingFilter): Promise<SuccessResponse> {
-        const skills = masterData?.skills?.split(',');
-        const levels = masterData?.levels?.split(',');
-        const job_types = masterData?.job_types?.split(',');
-        const name = masterData?.name;
+    async getAllJobPost(filter: JobPostingFilter): Promise<SuccessResponse> {
+        const skills = filter?.skills?.split(',').filter(Boolean);
+        const levels = filter?.levels?.split(',').filter(Boolean);
+        const jobTypes = filter?.jobTypes?.split(',').filter(Boolean);
+        const name = filter?.name;
         let query = {};
-        if (skills) {
+
+        if (skills && skills.length > 0) {
             query['skills.name'] = { $all: skills };
         }
-        if (levels) {
+        if (levels && levels.length > 0) {
             query['levels.name'] = { $all: levels };
         }
-        if (job_types) {
-            query['job_types.name'] = { $all: job_types };
+        if (jobTypes && jobTypes.length > 0) {
+            query['job_types.name'] = { $all: jobTypes };
         }
         if (name) {
             query['name'] = { $regex: new RegExp(name, 'i') };
         }
+
         const startIndex = (filter.page - 1) * filter.perPage;
         const totalJobPosts = await this.jobPostingModel.countDocuments().exec();
         const existingJobPosts = await this.jobPostingModel
             .find(query)
             .skip(startIndex)
+            .sort({ createdAt: -1 })
             .limit(filter.perPage)
             .populate('company', 'name avatar_url')
             .exec();
+
         const jobPostingDtos: JobPostingDto[] = existingJobPosts.map((jobPosting) =>
             JobPostingConverter.toDto(jobPosting),
         );
+
         return setSuccessResponse('Lấy danh sách tuyển dụng thành công', {
             jobPostings: jobPostingDtos,
             page: filter.page,
