@@ -4,6 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import { IsNotEmpty, IsObject, IsDateString } from 'class-validator';
 import { IsDateFormat } from '../../validator/is-date-format.validator';
+import { MasterDataType } from 'src/master-data-type/master-data-type.schema';
 
 export class UpdateJobPostingForm {
     @ApiProperty()
@@ -24,4 +25,12 @@ export class UpdateJobPostingForm {
     @ApiProperty()
     @IsObject({ message: 'must be Object' })
     detail: object;
+    @ApiProperty()
+    skills: MasterDataType[];
+
+    @ApiProperty()
+    levels: MasterDataType[];
+
+    @ApiProperty()
+    job_types: MasterDataType[];
 }
