@@ -54,7 +54,7 @@ export class JobPostingService {
     async getAllJobPost(filter: JobPostingFilter): Promise<SuccessResponse> {
         const skills = filter?.skills?.split(',').filter(Boolean);
         const levels = filter?.levels?.split(',').filter(Boolean);
-        const job_types = filter?.jobTypes?.split(',').filter(Boolean);
+        const jobTypes = filter?.jobTypes?.split(',').filter(Boolean);
         const name = filter?.name;
         let query = {};
 
@@ -64,8 +64,8 @@ export class JobPostingService {
         if (levels && levels.length > 0) {
             query['levels.name'] = { $all: levels };
         }
-        if (job_types && job_types.length > 0) {
-            query['job_types.name'] = { $all: job_types };
+        if (jobTypes && jobTypes.length > 0) {
+            query['job_types.name'] = { $all: jobTypes };
         }
         if (name) {
             query['name'] = { $regex: new RegExp(name, 'i') };

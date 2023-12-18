@@ -13,7 +13,7 @@ export class JobPostingFilter {
     @ApiProperty({ required: false })
     skills?: string;
 
-    @ApiProperty({ required: false, name: 'job-types' })
+    @ApiProperty({ required: false})
     jobTypes?: string;
 
     @ApiProperty({ required: false })
